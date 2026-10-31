@@ -1,0 +1,1151 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050719">
+<title>Roteiro Orlando 2026</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Roteiro interativo da viagem a Orlando, de 04 a 16 de dezembro de 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;600&family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;700&display=swap">
+<style>
+/* Layout: carteira de passes holográficos. Barra fixa com faixa de datas; visão geral = contagem + pendências + carteira; dia = passe com canhoto de endereços + programação + dicas. */
+:root{
+  /* Paleta da vinheta Disney: azul pérsico → majorelle → lavanda → heliotrópio, com brilho diamante e dourado de fogos */
+  --persian:#1738B7; --majorelle:#504DF4; --lav:#A76BFE; --helio:#DE5BF8; --diamond:#BFF5FD; --gold:#F6C76B;
+  --bg:#050719; --bg-2:#0C1236; --bar:rgba(5,7,25,.80);
+  --ink:#EEF0FF; --ink-2:#B0B7E4; --ink-3:#767EB2;
+  --line:rgba(170,180,255,.16); --glass:rgba(16,22,62,.62); --glass-2:rgba(26,34,92,.72); --glass-hi:rgba(255,255,255,.05);
+  --accent:#A3A0FF; --accent-ink:#0B1033; --warn:#FFB547; --warn-bg:rgba(255,181,71,.11); --ok:#5BE3B0;
+  --shadow:0 24px 60px -22px rgba(1,3,20,.85);
+  --aur-1:rgba(80,77,244,.30); --aur-2:rgba(222,91,248,.17); --aur-3:rgba(23,56,183,.34);
+  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-body:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"Martian Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --r-lg:26px; --r-md:18px; --r-sm:12px;
+  color-scheme:dark;
+}
+
+/* ---------- base ---------- */
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:170px}
+body{
+  margin:0;min-height:100vh;background-color:var(--bg);color:var(--ink);
+  font:400 16px/1.55 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background-image:
+    radial-gradient(60% 42% at 12% -4%,var(--aur-1),transparent 70%),
+    radial-gradient(48% 36% at 92% 6%,var(--aur-2),transparent 70%),
+    radial-gradient(70% 50% at 50% 104%,var(--aur-3),transparent 70%);
+  background-attachment:fixed;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:10px}
+svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+svg.i.fill{fill:currentColor;stroke:none}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.app{position:relative;z-index:1}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--f-mono)}
+.eyebrow{font:600 11px/1.2 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- barra superior ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--bar);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line)}
+.top-row{display:flex;align-items:center;gap:12px;padding-block:10px 6px}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:4px 6px 4px 0;text-align:left}
+.mark{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#fff;
+  background:conic-gradient(from 200deg,var(--persian),var(--majorelle),var(--helio),var(--lav),var(--persian));
+  box-shadow:0 6px 20px -6px var(--majorelle)}
+.mark svg{width:18px;height:18px}
+.brand-t{display:flex;flex-direction:column;line-height:1.1}
+.brand-t b{font:700 15px/1.1 var(--f-display);letter-spacing:.01em}
+.brand-t span{font:400 10px/1.4 var(--f-mono);letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+.top-act{margin-left:auto;display:flex;gap:8px}
+.icon-btn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--glass);color:var(--ink)}
+.icon-btn:hover{background:var(--glass-2)}
+
+.strip{display:flex;gap:8px;overflow-x:auto;padding-block:4px 12px;scroll-snap-type:x proximity;scrollbar-width:none;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 22px),transparent);
+          mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 22px),transparent)}
+.strip::-webkit-scrollbar{display:none}
+.chip{flex:none;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:58px;
+  padding:8px 10px 9px;border-radius:16px;border:1px solid var(--line);background:var(--glass);color:var(--ink-2);position:relative;
+  transition:transform .2s ease,background .2s ease}
+.chip:hover{transform:translateY(-1px)}
+.chip .wd{font:600 9.5px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase}
+.chip .dn{font:700 18px/1 var(--f-display);color:var(--ink);font-variant-numeric:tabular-nums}
+.chip .dot{width:18px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--a1),var(--a2))}
+.chip svg.i{width:18px;height:18px;color:var(--ink)}
+.chip[aria-current="page"]{background:linear-gradient(160deg,var(--a1),var(--a2));border-color:transparent;color:rgba(255,255,255,.9);
+  box-shadow:0 10px 24px -10px var(--a1)}
+.chip[aria-current="page"] .dn,.chip[aria-current="page"] svg.i{color:#fff}
+.chip[aria-current="page"] .dot{background:rgba(255,255,255,.85)}
+.chip.is-today::after{content:"hoje";position:absolute;top:-7px;right:-4px;font:600 8.5px/1 var(--f-mono);letter-spacing:.08em;
+  padding:3px 5px;border-radius:6px;background:var(--ok);color:#04131a}
+
+.live{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;padding:8px 12px;border-radius:14px;
+  background:var(--glass-2);border:1px solid var(--line);font-size:13.5px;line-height:1.35}
+.live-dot{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 var(--ok);animation:ping 1.8s infinite}
+.live b{font-weight:600}
+.live .tag{font:600 9.5px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ok)}
+.live button{margin-left:auto;border:1px solid var(--line);background:var(--glass-hi);border-radius:999px;padding:5px 11px;font-size:12.5px}
+.live a{font-weight:600;text-decoration:none;color:var(--accent)}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(91,227,176,.6)}70%{box-shadow:0 0 0 9px rgba(91,227,176,0)}100%{box-shadow:0 0 0 0 rgba(91,227,176,0)}}
+
+/* ---------- visão geral ---------- */
+.ov{padding-block:26px 48px;display:flex;flex-direction:column;gap:28px}
+.ov-head{display:grid;gap:22px;align-items:end}
+.hero h1{margin:10px 0 0;font:700 clamp(44px,12vw,92px)/.92 var(--f-display);letter-spacing:-.025em}
+.hero h1 span{display:block;width:fit-content;font-size:.42em;letter-spacing:-.01em;margin-top:.35em;
+  background:linear-gradient(90deg,var(--persian),var(--majorelle) 35%,var(--lav) 65%,var(--helio));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{margin:16px 0 0;max-width:52ch;color:var(--ink-2);font-size:16.5px}
+.count{border-radius:var(--r-lg);padding:20px 20px 18px;background:var(--glass);border:1px solid var(--line);box-shadow:var(--shadow);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.count-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+.cu{display:flex;flex-direction:column;gap:4px;padding:12px 6px 10px;border-radius:14px;background:var(--glass-hi);border:1px solid var(--line);text-align:center}
+.cu b{font:700 clamp(24px,7.4vw,40px)/1 var(--f-display);font-variant-numeric:tabular-nums}
+.cu span{font:600 9.5px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.count-foot{margin:12px 0 0;font-size:13.5px;color:var(--ink-2)}
+.count-big{margin:10px 0 0;font:700 clamp(22px,6vw,30px)/1.15 var(--f-display)}
+
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.stat{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-size:14px}
+.stat i{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--a1),var(--a2))}
+.stat b{font-weight:700;font-variant-numeric:tabular-nums}
+
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 14px}
+.sec-h h2{margin:0;font:700 17px/1.2 var(--f-display);letter-spacing:.005em}
+.sec-h small{font:400 11px/1.3 var(--f-mono);color:var(--ink-3);letter-spacing:.06em}
+
+.pend{border-radius:var(--r-lg);padding:20px;background:var(--glass);border:1px solid var(--line)}
+.pend ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.pend-row{width:100%;display:grid;grid-template-columns:4px 54px minmax(0,1fr) 20px;align-items:center;gap:12px;text-align:left;
+  padding:11px 12px 11px 0;border-radius:14px;border:1px solid var(--line);background:var(--glass-hi);overflow:hidden}
+.pend-row:hover{background:var(--glass-2)}
+.pend-row .sv{align-self:stretch;background:var(--ink-3);border-radius:0 4px 4px 0}
+.pend-row[data-sev="warn"] .sv{background:var(--warn)}
+.pend-row .dt{font:600 12px/1.2 var(--f-mono);color:var(--ink-2);text-align:center}
+.pend-row .tx{font-size:14.5px;line-height:1.4}
+.pend-row svg.i{color:var(--ink-3);width:18px;height:18px}
+
+.wallet{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.wallet > .mp:last-child{grid-column:span 2}
+.mp{--notch:9px;position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:14px;
+  min-height:162px;padding:14px 14px 15px;border-radius:20px;border:1px solid rgba(255,255,255,.2);text-align:left;color:#fff;
+  background:linear-gradient(150deg,var(--a1),var(--a2));box-shadow:0 18px 40px -22px var(--a1);
+  -webkit-mask:radial-gradient(circle var(--notch) at left 42%,#0000 97%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--notch) at right 42%,#0000 97%,#000) right/51% 100% no-repeat;
+          mask:radial-gradient(circle var(--notch) at left 42%,#0000 97%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--notch) at right 42%,#0000 97%,#000) right/51% 100% no-repeat;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),filter .25s ease;animation:rise .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*35ms)}
+.mp::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.32) 48%,transparent 64%) 160% 0/250% 100% no-repeat;transition:background-position .7s ease}
+.mp:hover{transform:translateY(-4px)}
+.mp:hover::before{background-position:-60% 0}
+.mp .gl{position:absolute;right:-14px;top:-12px;width:96px;height:96px;opacity:.22;z-index:-1}
+.mp .gl svg{width:100%;height:100%}
+.mp-d{display:flex;align-items:baseline;gap:8px}
+.mp-d b{font:700 30px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.mp-d span{font:600 10px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.mp-perf{position:absolute;left:16px;right:16px;top:42%;border-top:2px dashed rgba(255,255,255,.42)}
+.mp-t{display:block;font:600 15.5px/1.25 var(--f-body);text-wrap:balance}
+.mp-c{display:block;font:600 9.5px/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;opacity:.82;margin-top:5px}
+.mp.is-past{filter:saturate(.35) brightness(.9)}
+.mp.is-today{outline:2px solid var(--ok);outline-offset:3px}
+.mp .flag{position:absolute;top:12px;right:12px;font:600 9px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;padding:4px 6px;border-radius:6px;background:rgba(0,0,0,.28)}
+
+@keyframes rise{from{opacity:.35;transform:translateY(10px)}to{opacity:1;transform:none}}
+</style>
+<style>
+/* ---------- dia ---------- */
+.day{padding-block:18px 48px}
+.day-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.col{display:contents}
+.b-opts{order:1}.b-pass{order:2}.b-alert{order:3}.b-tl{order:4}.b-ideas{order:5}.b-tips{order:6}.b-nav{order:7}
+.card{border-radius:var(--r-lg);padding:20px;background:var(--glass);border:1px solid var(--line);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+
+/* passe holográfico */
+.pass{position:relative;isolation:isolate;overflow:hidden;border-radius:var(--r-lg);color:#fff;
+  background:linear-gradient(150deg,var(--a1),var(--a2));box-shadow:var(--shadow),0 30px 70px -42px var(--a1);
+  border:1px solid rgba(255,255,255,.22);animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+.pass::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(90% 70% at var(--mx,25%) var(--my,0%),rgba(255,255,255,.34),transparent 60%),
+             repeating-linear-gradient(118deg,rgba(255,255,255,0) 0 13px,rgba(255,255,255,.055) 13px 14px)}
+.pass::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.26) 50%,transparent 62%) 0 0/260% 100% no-repeat;animation:sweep 7.5s ease-in-out infinite}
+@keyframes sweep{0%,18%{background-position:130% 0}60%,100%{background-position:-30% 0}}
+.pass-main{padding:20px 20px 18px;display:flex;flex-direction:column;gap:14px;position:relative}
+.pass-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ptag{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);
+  font:600 10px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
+.ptag.warn{background:rgba(20,8,0,.32);border-color:rgba(255,200,120,.55);color:#FFE2B0}
+.pwhen{font:600 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;opacity:.92}
+.pass-title{margin:0;font:700 clamp(27px,7.6vw,42px)/1.04 var(--f-display);letter-spacing:-.015em;text-wrap:balance;text-shadow:0 2px 18px rgba(0,0,0,.18)}
+.pass-sub{margin:-6px 0 0;font-size:15px;opacity:.92}
+.pass-gl{position:absolute;right:-18px;top:-16px;width:150px;height:150px;opacity:.2;pointer-events:none}
+.pass-gl svg{width:100%;height:100%}
+.pstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pstat{padding:10px 10px 9px;border-radius:14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22)}
+.pstat span{display:block;font:600 9.5px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.pstat b{display:block;margin-top:6px;font:700 19px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.pstat b.sm{font:600 13px/1.2 var(--f-body)}
+.swap-row{display:grid;gap:8px}
+.swap{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;width:100%;text-align:left;padding:10px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.14);color:#fff}
+.swap small{display:block;font:600 9.5px/1.2 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.swap b{display:block;font-size:15px;font-weight:700;margin-top:2px}
+.swap:hover{background:rgba(255,255,255,.26)}
+.swap svg.i{width:17px;height:17px}
+.swap em{font-style:normal;font-size:13px;font-weight:600;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.2)}
+.perf{position:relative;height:20px}
+.perf::before{content:"";position:absolute;left:18px;right:18px;top:50%;border-top:2px dashed rgba(255,255,255,.5)}
+.perf i{position:absolute;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;background:var(--bg)}
+.perf i:first-child{left:-11px}.perf i:last-child{right:-11px}
+.stub{padding:6px 20px 20px;display:grid;gap:14px;background:linear-gradient(180deg,rgba(6,8,34,.06),rgba(6,8,34,.22))}
+.stub-h{font:600 10px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+.place{display:grid;gap:6px;padding:14px;border-radius:16px;background:rgba(8,10,40,.2);border:1px solid rgba(255,255,255,.2)}
+.place-n{font-weight:700;font-size:16px;line-height:1.3}
+.addr{font:400 12.5px/1.55 var(--f-mono);opacity:.95;-webkit-user-select:text;user-select:text;overflow-wrap:anywhere}
+.place-note{display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.4;opacity:.9}
+.place-note svg.i{width:16px;height:16px;margin-top:1px}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.act{display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border-radius:12px;font-size:13.5px;font-weight:600;text-decoration:none;
+  border:1px solid rgba(255,255,255,.34);background:rgba(255,255,255,.14);color:#fff}
+.act:hover{background:rgba(255,255,255,.26)}
+.act.pri{background:#fff;color:#0B1140;border-color:#fff}
+.act.pri:hover{background:#EEF0FF}
+.act svg.i{width:16px;height:16px}
+.place.tbd{border-style:dashed;background:rgba(8,10,40,.12)}
+.place.tbd .addr{opacity:.85;font-style:italic}
+
+/* opções do dia 07 */
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:5px;border-radius:20px;background:var(--glass);border:1px solid var(--line)}
+.seg-ind{position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:15px;background:linear-gradient(150deg,var(--a1),var(--a2));
+  box-shadow:0 10px 26px -12px var(--a1);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.seg[data-opt="o2"] .seg-ind{transform:translateX(100%)}
+.seg button{position:relative;z-index:1;border:0;background:none;padding:11px 8px;border-radius:15px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--ink-2)}
+.seg button b{font:700 14px/1.2 var(--f-display);color:var(--ink)}
+.seg button span{font-size:12.5px}
+.seg button[aria-pressed="true"],.seg button[aria-pressed="true"] b{color:#fff}
+.seg-note{margin:12px 2px 0;font-size:14px;color:var(--ink-2);line-height:1.5}
+.seg-note b{color:var(--ink);font-weight:600}
+
+/* alerta */
+.alert{display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;border-radius:var(--r-lg);padding:18px;border:1px solid var(--warn);background:var(--warn-bg)}
+.alert svg.i{color:var(--warn);width:22px;height:22px;margin-top:2px}
+.alert h3{margin:0;font:700 15px/1.3 var(--f-display)}
+.alert p{margin:6px 0 0;font-size:14.5px;color:var(--ink-2)}
+.alert ul{margin:8px 0 0;padding-left:18px;font-size:14.5px;color:var(--ink-2);display:grid;gap:4px}
+
+/* programação */
+.tl{list-style:none;margin:0;padding:0}
+.tl-item{position:relative;display:grid;grid-template-columns:58px 40px minmax(0,1fr);gap:0 12px;padding-bottom:20px;animation:rise .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*45ms)}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:"";position:absolute;left:calc(58px + 12px + 19px);top:42px;bottom:2px;width:2px;border-radius:2px;background:linear-gradient(var(--a1),var(--a2));opacity:.55}
+.tl-item:last-child::before{display:none}
+.tl-time{padding-top:10px;text-align:right;font:600 14px/1.2 var(--f-mono);font-variant-numeric:tabular-nums}
+.tl-time small{display:block;margin-top:4px;font:400 9px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.tl-node{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--bg-2);border:1.5px solid var(--a1);color:var(--a1)}
+.tl-node .i{width:19px;height:19px}
+.tl-body{padding-top:7px;min-width:0}
+.tl-title{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-weight:600;font-size:16px;line-height:1.35}
+.tl-desc{margin:3px 0 0;font-size:14.5px;color:var(--ink-2);line-height:1.5}
+.tl-warn{display:inline-flex;gap:8px;align-items:flex-start;margin-top:8px;padding:7px 10px;border-radius:10px;background:var(--warn-bg);color:var(--warn);font-size:13.5px;font-weight:500;line-height:1.4}
+.tl-warn svg.i{width:16px;height:16px;margin-top:1px}
+.badge{font:600 9px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;padding:4px 7px;border-radius:6px;background:var(--glass-2);border:1px solid var(--line);color:var(--ink-2)}
+.badge.now{background:var(--ok);border-color:transparent;color:#04131a}
+.badge.next{color:var(--accent);border-color:var(--accent)}
+.badge.tbd{border-style:dashed}
+.tl-item[data-state="past"]{opacity:.48}
+.tl-item[data-state="now"] .tl-node{background:linear-gradient(150deg,var(--a1),var(--a2));border-color:transparent;color:#fff;animation:glow 2.4s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0),0 0 22px -4px var(--a1)}50%{box-shadow:0 0 0 6px rgba(255,255,255,.06),0 0 30px 0 var(--a1)}}
+.tl-empty{margin:0;color:var(--ink-2);font-size:15px}
+.ico-land{transform:rotate(135deg)}
+.ico-up{transform:rotate(45deg)}
+
+/* dicas */
+.tips ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.tips li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;font-size:15px;line-height:1.5}
+.tips li svg.i{width:16px;height:16px;margin-top:3px;color:var(--accent)}
+
+/* ideias do dia livre */
+.ideas-g{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.idea{display:grid;gap:6px;padding:16px;border-radius:var(--r-md);background:var(--glass-hi);border:1px solid var(--line)}
+.idea h3{margin:0;font-size:16px;line-height:1.3}
+.idea p{margin:0;font-size:14px;color:var(--ink-2)}
+.idea .addr{color:var(--ink-2)}
+.act-g{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:12px;font-size:13.5px;font-weight:600;text-decoration:none;border:1px solid var(--line);background:var(--glass);color:var(--ink)}
+.act-g:hover{background:var(--glass-2)}
+.act-g.pri{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.act-g svg.i{width:16px;height:16px}
+
+/* navegação entre dias */
+.daynav{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dn-btn{display:flex;align-items:center;gap:10px;padding:14px;border-radius:var(--r-md);border:1px solid var(--line);background:var(--glass);text-align:left;min-width:0}
+.dn-btn:hover{background:var(--glass-2)}
+.dn-btn.next{justify-content:flex-end;text-align:right}
+.dn-btn span{display:block;font:600 10px/1.2 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.dn-btn b{display:block;font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dn-btn > div{min-width:0}
+
+/* encerramento */
+.fim{text-align:left}
+.fim p{margin:0 0 12px;color:var(--ink-2)}
+
+/* folha de escolha */
+.sheet-wrap{position:fixed;inset:0;z-index:80;display:grid;align-items:end}
+.sheet-bd{position:absolute;inset:0;background:rgba(3,5,22,.55);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+.sheet{position:relative;max-height:86vh;overflow:auto;background:var(--bg-2);border:1px solid var(--line);border-radius:26px 26px 0 0;
+  padding:10px max(18px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));
+  box-shadow:0 -20px 60px -20px rgba(0,0,0,.5);animation:up .34s cubic-bezier(.2,.8,.2,1)}
+.grab{width:44px;height:5px;border-radius:5px;background:var(--line);margin:4px auto 14px}
+.sheet h3{margin:0;font:700 18px/1.25 var(--f-display)}
+.sheet-sub{margin:6px 0 16px;color:var(--ink-2);font-size:14px}
+.opt-list{display:grid;gap:10px}
+.opt{display:grid;grid-template-columns:46px minmax(0,1fr) 22px;gap:12px;align-items:center;width:100%;text-align:left;padding:12px;border-radius:16px;border:1px solid var(--line);background:var(--glass-hi)}
+.opt:hover{background:var(--glass)}
+.opt[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.opt-sw{width:46px;height:46px;border-radius:13px;background:linear-gradient(150deg,var(--a1),var(--a2));display:grid;place-items:center;color:#fff}
+.opt-sw svg.i{width:22px;height:22px}
+.opt b{display:block;font-size:15.5px}
+.opt span{display:block;font-size:13.5px;color:var(--ink-2);margin-top:2px}
+.opt .w{color:var(--warn);font-weight:500}
+.opt .ck{color:var(--accent);opacity:0}
+.opt[aria-pressed="true"] .ck{opacity:1}
+.sheet-close{margin-top:14px;width:100%;padding:13px;border-radius:14px;border:1px solid var(--line);background:var(--glass);font-weight:600}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:90;
+  padding:11px 18px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:600;font-size:14px;box-shadow:var(--shadow);max-width:calc(100vw - 32px)}
+
+.foot{padding-block:8px 36px;border-top:1px solid var(--line);color:var(--ink-3);font-size:13px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.foot p{margin:14px 0 0;flex:1 1 280px}
+.foot button{margin-top:14px;border:1px solid var(--line);background:var(--glass);border-radius:999px;padding:8px 14px;font-size:13px;color:var(--ink)}
+
+/* ---------- telas maiores ---------- */
+@media (min-width:640px){ .ideas-g{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (min-width:980px){
+  .ov-head{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}
+  .day{padding-block:26px 56px}
+  .day-grid{grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:24px;align-items:start}
+  .col{display:flex;flex-direction:column;gap:20px;min-width:0}
+  .b-nav{grid-column:1 / -1}
+  .tl-item{grid-template-columns:64px 42px minmax(0,1fr)}
+  .tl-item::before{left:calc(64px + 12px + 20px)}
+  .tl-node{width:42px;height:42px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="app">
+  <header class="top">
+    <div class="wrap">
+      <div class="top-row">
+        <button class="brand" type="button" data-go="visao-geral" aria-label="Ir para a visão geral">
+          <span class="mark" id="brand-mark"></span>
+          <span class="brand-t"><b>Orlando</b><span>04–16 dez · 2026</span></span>
+        </button>
+      </div>
+      <nav class="strip" id="strip" aria-label="Dias da viagem"></nav>
+      <div class="live" id="live" hidden></div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" tabindex="-1"></main>
+
+  <footer class="wrap foot">
+    <p>Horários no fuso de Orlando (UTC−5 em dezembro), exceto a partida do Brasil, marcada como Brasília. Endereços e regras dos parques conferidos em 31/10/2026.</p>
+    <button type="button" id="sim-btn">Ver prévia do modo ao vivo</button>
+  </footer>
+</div>
+
+<div class="sheet-wrap" id="sheet" hidden>
+  <div class="sheet-bd" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="grab"></div>
+    <h3 id="sheet-title">Escolha o parque</h3>
+    <p class="sheet-sub" id="sheet-sub"></p>
+    <div class="opt-list" id="sheet-list"></div>
+    <button class="sheet-close" type="button" data-close>Fechar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(()=>{
+/* ===== Dados do roteiro (edite aqui) ===== */
+const TRIP = {
+  start: '2026-12-04T08:00:00-03:00',   // partida de casa (Brasília)
+  end:   '2026-12-16T23:59:00-05:00'
+};
+
+const ICONS = {
+  car:'<path d="M5 16.5h14"/><path d="M4 16.5v-3.2l1.8-4.6A2 2 0 0 1 7.7 7.5h8.6a2 2 0 0 1 1.9 1.2l1.8 4.6v3.2"/><path d="M6 16.5V19M18 16.5V19"/><circle cx="8" cy="13.2" r=".9"/><circle cx="16" cy="13.2" r=".9"/>',
+  plane:'<path class="f" d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/>',
+  home:'<path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.8V20h13V9.8"/><path d="M10 20v-5.5h4V20"/>',
+  cart:'<path d="M3 4h2.2l2.3 10.6h10.8l2-7.6H6.1"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/>',
+  bag:'<path d="M5 8h14l-1.1 12H6.1z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/>',
+  gate:'<path d="M4 6.5h16V10a2 2 0 0 0 0 4v3.5H4V14a2 2 0 0 0 0-4z"/><path d="M14.5 6.5v11" stroke-dasharray="1.6 2.4"/>',
+  exit:'<path d="M13 4H6v16h7"/><path d="M16 8l4 4-4 4"/><path d="M10 12h10"/>',
+  swap:'<path d="M7 7.5h12l-3.2-3.2"/><path d="M17 16.5H5l3.2 3.2"/>',
+  trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5.5a3 3 0 0 0 2.7 4M16 6h2.5a3 3 0 0 1-2.7 4"/><path d="M12 13v4M9 20h6"/>',
+  alarm:'<circle cx="12" cy="13" r="7"/><path d="M12 10v3.2l2 1.8M5 4 3 6M19 4l2 2"/>',
+  pin:'<path d="M12 21s-6.2-5.6-6.2-11a6.2 6.2 0 0 1 12.4 0c0 5.4-6.2 11-6.2 11z"/><circle cx="12" cy="10" r="2.2"/>',
+  nav:'<path d="M3 11 21 3l-8 18-2-8z"/>',
+  copy:'<rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.2"/><path d="M15.5 8.5V5.2A1.2 1.2 0 0 0 14.3 4H5.2A1.2 1.2 0 0 0 4 5.2v9.1a1.2 1.2 0 0 0 1.2 1.2h3.3"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>',
+  moon:'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+  chevL:'<path d="M15 5l-7 7 7 7"/>',
+  chevR:'<path d="M9 5l7 7-7 7"/>',
+  alert:'<path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5M12 17.3v.2"/>',
+  spark:'<path d="M12 3l1.9 5.6L19.5 10.5l-5.6 1.9L12 18l-1.9-5.6L4.5 10.5l5.6-1.9z"/><path d="M19 3v3M17.5 4.5h3M5 17v3M3.5 18.5h3"/>',
+  planet:'<circle cx="12" cy="12" r="5"/><path d="M3.6 15.8c-1.4-1.7 2-4.6 7.5-6.6s10.1-2.2 11.3-.6"/>',
+  wave:'<path d="M2 15c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/><path d="M2 19.5c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/><path d="M7 10.5c1-3 3-4.5 5.5-4.5"/>',
+  coaster:'<path d="M2 20c5 0 6-7 10-9.5a3.6 3.6 0 1 1-1.5 6.3C13.5 18.5 17 20 22 20"/><path d="M5 20v-3M19 20v-2"/>',
+  palm:'<path d="M12 21V11"/><path d="M12 11c-2-2.8-5.8-3-8-1"/><path d="M12 11c2-2.8 5.8-3 8-1"/><path d="M12 11c-.6-3-3.3-5.2-6.5-5.2"/><path d="M12 11c.6-3 3.3-5.2 6.5-5.2"/>',
+  star:'<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z"/>',
+  grid:'<rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/>',
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>'
+};
+
+/* Cores por tipo de dia: a1 é o tom mais forte (ícones), a2 o fim do degradê */
+const CATS = {
+  viagem:  {label:'Viagem',          a1:'#2F7BEF', a2:'#7DD3FC', glyph:'plane'},
+  compras: {label:'Compras',         a1:'#E2408F', a2:'#FFA45B', glyph:'bag'},
+  mk:      {label:'Parque Disney',   a1:'#504DF4', a2:'#DE5BF8', glyph:'spark'},
+  epcot:   {label:'Parque Disney',   a1:'#6550F5', a2:'#22C3B5', glyph:'spark'},
+  hs:      {label:'Parque Disney',   a1:'#E5374F', a2:'#FFA83E', glyph:'spark'},
+  ak:      {label:'Parque Disney',   a1:'#14965A', a2:'#A9D447', glyph:'spark'},
+  usf:     {label:'Universal',       a1:'#2563EB', a2:'#2DC8F5', glyph:'planet'},
+  ioa:     {label:'Universal',       a1:'#D16D00', a2:'#14A99A', glyph:'planet'},
+  epic:    {label:'Universal',       a1:'#8550F2', a2:'#F25CBE', glyph:'planet'},
+  seaworld:{label:'SeaWorld',        a1:'#0079B3', a2:'#2FD3CB', glyph:'wave'},
+  busch:   {label:'Busch Gardens',   a1:'#D4560A', a2:'#8BBE30', glyph:'coaster'},
+  springs: {label:'Compras e NBA',    a1:'#D9572F', a2:'#F2A94E', glyph:'bag'},
+  livre:   {label:'Dia livre',       a1:'#7353EA', a2:'#5FA8FF', glyph:'palm'},
+  fim:     {label:'Encerramento',    a1:'#B57A12', a2:'#D45AE8', glyph:'star'}
+};
+
+/* Locais. nav = destino usado no GPS quando é diferente do endereço; origin = ponto de partida fixo da rota */
+const PLACES = {
+  cnf:      {name:'Aeroporto Internacional de Belo Horizonte (Confins)', addr:'Rodovia LMG-800, Confins - MG, 33500-900',
+             nav:'Aeroporto Internacional de Belo Horizonte, Confins - MG',
+             note:'Aeroporto de partida, a cerca de 1 hora de Belo Horizonte.'},
+  mco:      {name:'Aeroporto Internacional de Orlando (MCO)', addr:'1 Jeff Fuqua Blvd, Orlando, FL 32827', note:'Chegada do voo Azul AD 8730.'},
+  casa:     {name:'Casa em Kissimmee', addr:'Kissimmee, FL', note:'Endereço provisório. Troque pelo da casa quando reservar.'},
+  vineland: {name:'Orlando Vineland Premium Outlets', addr:'8200 Vineland Ave, Orlando, FL 32821'},
+  intl:     {name:'Orlando International Premium Outlets', addr:'4951 International Dr, Orlando, FL 32819'},
+  mk:       {name:'Magic Kingdom', short:'Magic Kingdom', cat:'mk', addr:'1180 Seven Seas Dr, Lake Buena Vista, FL 32830',
+             nav:'Transportation and Ticket Center, Walt Disney World, FL',
+             note:'De carro, o GPS vai para o estacionamento no Transportation & Ticket Center (TTC). De lá, monotrilho ou balsa até o parque.'},
+  epcot:    {name:'EPCOT', short:'EPCOT', cat:'epcot', addr:'200 Epcot Center Dr, Orlando, FL 32821',
+             blurb:'Aberto até a noite, com o Festival of the Holidays em dezembro.'},
+  hs:       {name:"Disney's Hollywood Studios", short:'Hollywood Studios', cat:'hs', addr:'351 S Studio Dr, Lake Buena Vista, FL 32830',
+             blurb:'Star Wars, Toy Story Land e as atrações mais radicais da Disney.'},
+  ak:       {name:"Disney's Animal Kingdom", short:'Animal Kingdom', cat:'ak', addr:'2901 Osceola Pkwy, Bay Lake, FL 32830',
+             blurb:'Pandora, safári e animais mais ativos pela manhã.'},
+  usf:      {name:'Universal Studios Florida', short:'Universal Studios', cat:'usf', addr:'6000 Universal Blvd, Orlando, FL 32819',
+             note:'Estacionamento na garagem principal. Entrada a pé pelo CityWalk.'},
+  ioa:      {name:'Universal Islands of Adventure', short:'Islands of Adventure', cat:'ioa', addr:'6000 Universal Blvd, Orlando, FL 32819',
+             note:'Mesma garagem do Universal Studios. Entrada a pé pelo CityWalk.'},
+  epic:     {name:'Universal Epic Universe', short:'Epic Universe', cat:'epic', addr:'1001 Epic Blvd, Orlando, FL 32819',
+             note:'Estacionamento próprio, a cerca de 2,4 km da garagem principal da Universal. Não use o endereço geral da Universal.'},
+  seaworld: {name:'SeaWorld Orlando', addr:'7007 Sea World Dr, Orlando, FL 32821'},
+  busch:    {name:'Busch Gardens Tampa Bay', addr:'10165 N McKinley Dr, Tampa, FL 33612', note:'Fica em Tampa, cerca de 1h30 de carro desde Kissimmee.'},
+  springs:  {name:'Disney Springs', addr:'1486 Buena Vista Dr, Lake Buena Vista, FL 32830', note:'Entrada gratuita. As garagens Orange e Lime são as mais práticas.'},
+  kia:      {name:'Kia Center', addr:'400 W Church St, Orlando, FL 32801', note:'Arena do Orlando Magic, no centro de Orlando.'},
+  ksc:      {name:'Kennedy Space Center Visitor Complex', addr:'Space Commerce Way, Merritt Island, FL 32953', blurb:'Centro espacial da NASA, cerca de 1h de carro. Ocupa o dia inteiro.'},
+  icon:     {name:'ICON Park', addr:'8375 International Dr, Orlando, FL 32819', blurb:'Roda-gigante The Wheel, restaurantes e atrações na International Drive.'},
+  millenia: {name:'The Mall at Millenia', addr:'4200 Conroy Rd, Orlando, FL 32839', blurb:'Shopping com marcas de luxo e lojas de departamento.'},
+  gatorland:{name:'Gatorland', addr:'14501 S Orange Blossom Trail, Orlando, FL 32837', blurb:'Parque clássico da Flórida, com jacarés e tirolesa.'}
+};
+
+/* Avisos que valem só para uma data e só para o parque que vai até a noite */
+const DATE_NOTES = {
+  '2026-12-06': { ak:'Costuma fechar no fim da tarde: não chega até as 21h.' }
+};
+
+const PARK_ITEMS = (gpsText, parkLabel) => ([
+  {t:'08:30', ico:'car',  title:'Saída de casa', desc:gpsText},
+  {t:'09:00', ico:'gate', title:parkLabel, desc:'Abertura do parque. Chegar cedo garante as filas mais curtas do dia.'},
+  {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para Kissimmee.'}
+]);
+const STATS_PARK = [['Saída','08:30'],['Parque','09:00'],['Volta','21:00']];
+const GPS_UNI = 'Destino no GPS: garagem principal da Universal (CityWalk).';
+
+const DAYS = [
+  { id:'04', date:'2026-12-04', wd:'Sex', cat:'viagem', title:'Embarque', sub:'Azul AD 8730 · Confins → Orlando', places:['cnf','mco','casa'],
+    stats:[['Partida','08:00'],['Voo','12:25'],['Chegada','19:30']],
+    items:[
+      {t:'08:00', tz:'BRT', ico:'car',   title:'Partida de casa', desc:'Saída de casa, em Belo Horizonte, até o Aeroporto de Confins. Conte cerca de 1 hora de estrada.'},
+      {t:'12:25', tz:'BRT', ico:'plane', rot:'up', title:'Voo Azul AD 8730', desc:'Confins (CNF) → Orlando (MCO), voo direto de cerca de 9 horas. Em dezembro, Orlando está 2 horas atrás de Brasília.'},
+      {t:'19:30', tz:'ORL', ico:'plane', rot:'land', title:'Chegada em Orlando', desc:'Imigração e bagagens podem levar mais de 1 hora.'},
+      {t:'20:30', ico:'home', title:'Ida para casa', desc:'Do aeroporto até Kissimmee, cerca de 30 minutos.', warn:'Com imigração, bagagens e retirada do carro, a saída do aeroporto tende a ficar mais perto das 21h.'},
+      {t:'21:00', ico:'cart', title:'Compras básicas', desc:'Mercado rápido: água, café da manhã e o essencial para o dia seguinte.'}
+    ],
+    tips:[
+      'Chegue a Confins 3 horas antes do voo internacional: saindo às 08:00, você chega por volta das 09:00.',
+      'Baixe os apps dos parques ainda no Brasil, com Wi‑Fi.',
+      'Leve casaco leve e protetor solar na bagagem de mão.'
+    ] },
+
+  { id:'05', date:'2026-12-05', wd:'Sáb', cat:'compras', title:'Outlet Vineland', sub:'Compras e adaptação', places:['vineland'],
+    stats:[['Acordar','09:00'],['Mercado','10:00'],['Outlet','13:00']],
+    items:[
+      {t:'09:00', ico:'alarm', title:'Acordar', desc:'Manhã tranquila para recuperar da viagem.'},
+      {t:'10:00', ico:'cart',  title:'Compras para a casa', desc:'Mercado completo para a semana.'},
+      {t:'13:00', ico:'bag',   title:'Orlando Vineland Premium Outlets', desc:'Outlet a céu aberto perto da região da Disney, com marcas de grife.'}
+    ],
+    tips:[
+      'Cadastre-se no clube VIP do site Premium Outlets antes de ir: costuma liberar cupons extras.',
+      'Leve uma mala vazia para as compras.',
+      'Não deixe sacolas à vista dentro do carro.'
+    ] },
+
+  { id:'06', date:'2026-12-06', wd:'Dom', cat:'hs', title:'Dia Disney', sub:'Duas opções', places:[], flag:'Parques a definir',
+    options:{
+      o1:{ label:'Opção 1', hint:'1 parque, dia inteiro',
+        note:'<b>Ingresso comum.</b> Mais tempo em um parque só, sem deslocamento no meio do dia.',
+        slots:[{key:'d06o1', list:['hs','epcot','ak'], def:'hs', label:'Parque do dia', evening:true}],
+        stats:STATS_PARK,
+        items:[
+          {t:'08:30', ico:'car',  title:'Saída de casa', desc:'GPS para o estacionamento do {p}.'},
+          {t:'09:00', ico:'gate', title:'Chegada ao {p}', desc:'Abertura do parque. Chegar cedo garante as filas mais curtas do dia.', noteFor:'p'},
+          {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para Kissimmee.'}
+        ] },
+      o2:{ label:'Opção 2', hint:'2 parques (Park Hopper)',
+        note:'<b>Exige ingresso com Park Hopper.</b> A troca pode ser a qualquer hora depois de entrar no primeiro parque. Você vê mais um parque, mas perde cerca de 1 hora no deslocamento.',
+        slots:[{key:'d06o2p1', list:['ak','hs','epcot'], def:'ak', label:'Parque 1 · manhã'},
+               {key:'d06o2p2', list:['epcot','hs','ak'], def:'epcot', label:'Parque 2 · tarde', evening:true}],
+        stats:[['Saída','08:30'],['Troca','15:00'],['Volta','21:00']],
+        items:[
+          {t:'08:30', ico:'car',  title:'Saída de casa', desc:'GPS para o estacionamento do {p1}.'},
+          {t:'09:00', ico:'gate', title:'Parque 1: {p1}', desc:'Manhã no primeiro parque.', noteFor:'p1'},
+          {t:'15:00', ico:'swap', title:'Ida ao parque 2: {p2}', desc:'Troca de parque. De carro, conte o tempo de estacionar de novo.', noteFor:'p2'},
+          {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para Kissimmee.'}
+        ] }
+    },
+    tips:[
+      'Os parques deste dia ainda estão em aberto: toque em “Trocar” para comparar endereços e avisos.',
+      'Nesse dia o Hollywood Studios funciona em horário normal. A festa de Natal dele cai nos dias 05 e 07.',
+      'O Animal Kingdom costuma fechar no fim da tarde: funciona melhor como primeiro parque.',
+      'O EPCOT costuma ter fogos à noite e, em dezembro, o Festival of the Holidays.'
+    ] },
+
+  { id:'07', date:'2026-12-07', wd:'Seg', cat:'mk', title:'Magic Kingdom', sub:'Dia Disney', places:['mk'],
+    stats:STATS_PARK,
+    items:[
+      {t:'08:30', ico:'car',  title:'Saída de casa', desc:'GPS para o estacionamento no Transportation & Ticket Center (TTC).'},
+      {t:'09:00', ico:'gate', title:'Chegada ao Magic Kingdom', desc:'Do TTC ao portão, de monotrilho ou balsa: conte de 20 a 30 minutos.'},
+      {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para Kissimmee.'}
+    ],
+    tips:[
+      'Na segunda não tem festa de Natal no Magic Kingdom: o parque funciona até o horário normal.',
+      'Saindo às 08:30, a entrada real deve ficar entre 09:30 e 09:45. Para pegar a abertura, saia por volta das 07:45.',
+      'Use o app My Disney Experience para filas, mapa e Lightning Lane.',
+      'Manhãs de dezembro são frescas e as tardes, quentes: vá de camadas.'
+    ] },
+
+  { id:'08', date:'2026-12-08', wd:'Ter', cat:'compras', title:'Outlet International', sub:'Compras na International Drive', places:['intl'],
+    stats:[['Saída','09:30'],['Outlet','10:30'],['Volta','livre']],
+    items:[
+      {t:'09:30', ico:'car', title:'Saída de casa', desc:'Trajeto até a International Drive.'},
+      {t:'10:30', ico:'bag', title:'Chegada ao outlet', desc:'Orlando International Premium Outlets.'},
+      {t:'x',     ico:'exit', title:'Saída do outlet', desc:'Sem horário fixo: depende das compras.', open:true}
+    ],
+    tips:[
+      'Dia leve entre dois dias de parque: bom para descansar as pernas.',
+      'A International Drive tem muitas opções de restaurante para o almoço.'
+    ] },
+
+  { id:'09', date:'2026-12-09', wd:'Qua', cat:'usf', title:'Universal Studios', sub:'Dia Universal', places:['usf'],
+    stats:STATS_PARK, items:PARK_ITEMS(GPS_UNI, 'Chegada ao Universal Studios'),
+    tips:[
+      'Universal Studios e Islands of Adventure ficam lado a lado e são ligados pelo Hogwarts Express (exige ingresso park-to-park).',
+      'Use o app da Universal para filas e filas virtuais.'
+    ] },
+
+  { id:'10', date:'2026-12-10', wd:'Qui', cat:'seaworld', title:'SeaWorld Orlando', sub:'Parque marinho', places:['seaworld'],
+    stats:STATS_PARK, items:PARK_ITEMS('Trajeto até o SeaWorld.', 'Chegada ao SeaWorld'),
+    tips:[
+      'Confira o horário de abertura no site: pode ser 9h ou 10h.',
+      'Mako e Kraken são as montanhas-russas mais fortes. Vá nelas cedo.',
+      'Em dezembro o parque costuma ter programação de Natal à noite.'
+    ] },
+
+  { id:'11', date:'2026-12-11', wd:'Sex', cat:'livre', title:'Dia livre', sub:'Descanso ou passeio opcional', places:[],
+    stats:null, items:[], ideas:['ksc','icon','millenia','gatorland'], empty:'Nenhum horário fixo. Veja as sugestões abaixo, se quiser sair.',
+    tips:[
+      'Dia para recuperar energia: vem depois de dois parques seguidos e antes do Busch Gardens.',
+      'Se for ao Kennedy Space Center, saia cedo: é dia inteiro.'
+    ] },
+
+  { id:'12', date:'2026-12-12', wd:'Sáb', cat:'busch', title:'Busch Gardens', sub:'Tampa', places:['busch'],
+    stats:[['Saída','08:00'],['Parque','09:00'],['Volta','21:00']],
+    items:[
+      {t:'08:00', ico:'car',  title:'Saída de casa', desc:'Cerca de 1h30 de carro até Tampa.'},
+      {t:'09:00', ico:'gate', title:'Chegada ao Busch Gardens', desc:'Montanhas-russas e área de safári.', warn:'Com 1h30 de estrada, a chegada fica perto das 09:30. O parque costuma abrir às 10h: confira o horário do dia.'},
+      {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Volta de cerca de 1h30. Chegada em casa perto das 22:30.'}
+    ],
+    tips:[
+      'À noite, em dezembro, o parque costuma ter o evento Christmas Town.',
+      'No dia seguinte tem Universal às 08:30: considere sair do parque mais cedo.'
+    ] },
+
+  { id:'13', date:'2026-12-13', wd:'Dom', cat:'ioa', title:'Islands of Adventure', sub:'Dia Universal', places:['ioa'],
+    stats:STATS_PARK, items:PARK_ITEMS(GPS_UNI, 'Chegada ao Islands of Adventure'),
+    tips:[
+      'Fica ao lado do Universal Studios, com a mesma garagem e entrada pelo CityWalk.',
+      'Domingo costuma ser mais cheio que os dias de semana: chegue na abertura.'
+    ] },
+
+  { id:'14', date:'2026-12-14', wd:'Seg', cat:'springs', title:'Disney Springs e Magic x 76ers', sub:'Compras de manhã, NBA à noite', places:['springs','kia'],
+    stats:[['Springs','10:00'],['Saída','16:00'],['Jogo','19:00']],
+    items:[
+      {t:'09:30', ico:'car',    title:'Saída de casa', desc:'Trajeto até o Disney Springs.'},
+      {t:'10:00', ico:'bag',    title:'Chegada ao Disney Springs', desc:'Compras, restaurantes e a loja World of Disney.'},
+      {t:'14:00', ico:'home',   title:'Volta para casa', desc:'Pausa para descansar antes do jogo.'},
+      {t:'16:00', ico:'car',    title:'Saída para o jogo', desc:'Trajeto até o centro de Orlando. No fim da tarde a I-4 costuma ter trânsito.'},
+      {t:'19:00', ico:'trophy', title:'Orlando Magic x Philadelphia 76ers', desc:'Jogo da NBA no Kia Center.'}
+    ],
+    tips:[
+      'Saindo às 16:00, a chegada deve ficar perto das 17:00, duas horas antes do jogo. Dá tempo de jantar perto da arena.',
+      'Com a volta às 14h, priorize as lojas que mais interessam: o complexo é grande.'
+    ] },
+
+  { id:'15', date:'2026-12-15', wd:'Ter', cat:'epic', title:'Epic Universe', sub:'Dia Universal', places:['epic'],
+    stats:STATS_PARK, items:PARK_ITEMS('Destino no GPS: estacionamento próprio do Epic Universe (1001 Epic Blvd).', 'Chegada ao Epic Universe'),
+    tips:[
+      'Não use o endereço geral da Universal: o Epic Universe tem estacionamento próprio.',
+      'É o parque mais disputado da Universal. Terça ajuda, mas chegue na abertura.'
+    ] },
+
+  { id:'16', date:'2026-12-16', wd:'Qua', cat:'fim', title:'Dia da volta', sub:'Voo de volta a definir', places:[], stats:null, items:[], end:true,
+    empty:'Dia da volta. Os horários do voo entram quando estiverem definidos.',
+    tips:['Quando tiver o voo, vale incluir: check-out da casa, devolução do carro e chegada ao aeroporto 3 horas antes.'] }
+];
+
+const TODO = [
+  {day:'06', sev:'info', text:'Parques da Disney do dia 06 ainda em aberto (opção 1 ou 2).'},
+  {day:'12', sev:'warn', text:'Busch Gardens fica a ~1h30 e costuma abrir às 10h.'},
+  {day:'04', sev:'warn', text:'A saída do aeroporto tende a ficar perto das 21h, não 20:30.'},
+  {day:'04', sev:'info', text:'Endereço da casa em Kissimmee ainda provisório.'},
+  {day:'16', sev:'info', text:'Voo de volta ainda não incluído.'}
+];
+
+/* ===== Aplicação ===== */
+const $ = (s, r = document) => r.querySelector(s);
+const KEY = 'roteiro-orlando-2026';
+const ORL = '-05:00', BRT = '-03:00';
+const MESES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+
+const store = {
+  get(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } },
+  set(v){ try { localStorage.setItem(KEY, JSON.stringify(v)); } catch(e){} }
+};
+const saved = store.get();
+const S = { opt: saved.opt === 'o2' ? 'o2' : 'o1', choices: saved.choices || {}, theme: saved.theme || null };
+function save(){ store.set({ opt:S.opt, choices:S.choices, theme:S.theme }); }
+
+let sim = null; // prévia do modo ao vivo
+const now = () => sim ? new Date(sim.start + (Date.now() - sim.setAt)) : new Date();
+
+function ico(name, extra = ''){
+  const body = ICONS[name] || '';
+  const fill = body.includes('class="f"');
+  return `<svg class="i${fill ? ' fill' : ''}${extra ? ' ' + extra : ''}" viewBox="0 0 24 24" aria-hidden="true">${body}</svg>`;
+}
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const choice = slot => (slot.list.includes(S.choices[slot.key]) ? S.choices[slot.key] : slot.def);
+const fill = (str, map) => String(str ?? '').replace(/\{(\w+)\}/g, (m, k) => map[k] ?? m);
+const dayById = id => DAYS.find(d => d.id === id);
+const idx = id => DAYS.findIndex(d => d.id === id);
+const absTime = (date, t, tz) => new Date(`${date}T${t}:00${tz === 'BRT' ? BRT : ORL}`);
+const orlDate = d => d.toLocaleDateString('en-CA', { timeZone:'America/New_York' });
+const tripState = () => { const n = now(); return n < new Date(TRIP.start) ? 'before' : (n > new Date(TRIP.end) ? 'after' : 'during'); };
+const todayId = () => { if (tripState() !== 'during') return null; const d = DAYS.find(x => x.date === orlDate(now())); return d ? d.id : '04'; };
+
+/* Transforma o dia (com escolhas e opção do dia 07) no que será mostrado */
+function resolve(day){
+  const v = { id:day.id, date:day.date, wd:day.wd, sub:day.sub, tips:day.tips || [], alert:day.alert, flag:day.flag,
+    ideas:day.ideas, end:day.end, empty:day.empty, stats:day.stats, slots:[], title:day.title, cat:day.cat, places:day.places || [], items:day.items || [] };
+  const notes = DATE_NOTES[day.date] || {};
+  if (day.slot){
+    const c = choice(day.slot);
+    const P = PLACES[c];
+    v.slots = [{ ...day.slot, val:c }];
+    v.cat = c; v.title = P.short; v.places = [c];
+    v.items = day.items.map(it => ({ ...it, title:fill(it.title, {u:P.short}), desc:fill(it.desc, {gps:P.gps}) }));
+  }
+  if (day.options){
+    const o = day.options[S.opt];
+    const map = {}, picked = {};
+    const eve = {};
+    v.slots = o.slots.map(s => { const c = choice(s); const k = s.key.endsWith('p1') ? 'p1' : s.key.endsWith('p2') ? 'p2' : 'p'; map[k] = PLACES[c].short; picked[k] = c; eve[k] = !!s.evening; return { ...s, val:c }; });
+    v.items = o.items.map(it => ({ ...it, title:fill(it.title, map), desc:fill(it.desc, map), warn: it.noteFor ? (eve[it.noteFor] ? notes[picked[it.noteFor]] : undefined) : it.warn }));
+    v.places = v.slots.map(s => s.val);
+    v.stats = o.stats;
+    if (S.opt === 'o1'){ v.title = map.p; v.cat = picked.p; }
+    else { v.title = `${map.p1} + ${map.p2}`; v.cat = picked.p1; v.cat2 = picked.p2; }
+    v.sub = o.hint;
+    v.optNote = o.note;
+    v.warnFlag = v.slots.some(s => s.evening && notes[s.val]) ? 'Atenção ao horário' : null;
+  }
+  const C = CATS[v.cat];
+  v.a1 = C.a1; v.a2 = v.cat2 ? CATS[v.cat2].a2 : C.a2; v.label = C.label; v.glyph = C.glyph;
+  return v;
+}
+
+/* Estado de cada item da programação no modo ao vivo */
+function itemStates(v){
+  const n = now();
+  const times = v.items.map(it => /^\d\d:\d\d$/.test(it.t) ? absTime(v.date, it.t, it.tz) : null);
+  const valid = times.map((t, i) => t ? i : -1).filter(i => i >= 0);
+  if (!valid.length) return v.items.map(() => '');
+  const first = times[valid[0]], last = times[valid[valid.length - 1]];
+  if (n < first - 12 * 3600e3) return v.items.map(() => '');
+  if (n > +last + 3 * 3600e3) return v.items.map(t => 'past');
+  let cur = -1; valid.forEach(i => { if (times[i] <= n) cur = i; });
+  const nxt = valid.find(i => times[i] > n);
+  return v.items.map((_, i) => !times[i] ? '' : (i < cur ? 'past' : i === cur ? 'now' : i === nxt ? 'next' : ''));
+}
+function inLabel(ms){
+  const m = Math.max(0, Math.round(ms / 60000)); const h = Math.floor(m / 60), r = m % 60;
+  return h ? `${h}h${r ? ' ' + String(r).padStart(2,'0') + 'min' : ''}` : `${r} min`;
+}
+
+/* Links de rota */
+function mapsUrl(q, o){ return `https://www.google.com/maps/dir/?api=1${o ? '&origin=' + encodeURIComponent(o) : ''}&destination=${encodeURIComponent(q)}&travelmode=driving`; }
+function wazeUrl(q){ return `https://waze.com/ul?q=${encodeURIComponent(q)}&navigate=yes`; }
+function placeActions(P, cls){
+  const q = P.nav || `${P.name}, ${P.addr}`;
+  const c = cls === 'g' ? 'act-g' : 'act';
+  return `<div class="acts">
+    <a class="${c} pri" href="${mapsUrl(q, P.origin)}" target="_blank" rel="noopener">${ico('nav')}Google Maps</a>
+    <a class="${c}" href="${wazeUrl(q)}" target="_blank" rel="noopener">Waze</a>
+    <button class="${c}" type="button" data-copy="${esc(P.addr)}">${ico('copy')}Copiar</button>
+  </div>`;
+}
+
+/* ---------- faixa de datas ---------- */
+function renderStrip(view){
+  const t = todayId();
+  const chips = [`<button class="chip" type="button" data-go="visao-geral" style="--a1:#504DF4;--a2:#DE5BF8" ${view === 'visao-geral' ? 'aria-current="page"' : ''}>
+      <span class="wd">Geral</span>${ico('grid')}<span class="dot"></span></button>`];
+  DAYS.forEach(d => {
+    const v = resolve(d);
+    chips.push(`<button class="chip${t === d.id ? ' is-today' : ''}" type="button" data-go="dia-${d.id}" style="--a1:${v.a1};--a2:${v.a2}"
+      ${view === 'dia-' + d.id ? 'aria-current="page"' : ''} aria-label="${d.wd} ${d.id} de dezembro: ${esc(v.title)}">
+      <span class="wd">${d.wd}</span><span class="dn">${d.id}</span><span class="dot"></span></button>`);
+  });
+  const strip = $('#strip');
+  strip.innerHTML = chips.join('');
+  const act = strip.querySelector('[aria-current="page"]');
+  if (act) act.scrollIntoView({ block:'nearest', inline:'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+}
+
+/* ---------- visão geral ---------- */
+function countHTML(){
+  const st = tripState();
+  if (st === 'before'){
+    return `<div class="count" id="count"><span class="eyebrow">Contagem para o embarque</span>
+      <div class="count-grid">
+        <div class="cu"><b id="cd-d">00</b><span>dias</span></div>
+        <div class="cu"><b id="cd-h">00</b><span>horas</span></div>
+        <div class="cu"><b id="cd-m">00</b><span>min</span></div>
+        <div class="cu"><b id="cd-s">00</b><span>seg</span></div>
+      </div>
+      <p class="count-foot">Partida sexta, 04/12, às 08:00 (Brasília).</p></div>`;
+  }
+  if (st === 'during'){
+    const d = dayById(todayId()); const v = resolve(d);
+    return `<div class="count"><span class="eyebrow">Viagem em andamento</span>
+      <p class="count-big">Hoje: ${esc(v.title)}</p>
+      <p class="count-foot">${d.wd}, ${d.id}/12 · <a href="#dia-${d.id}" data-go="dia-${d.id}">abrir o dia</a></p></div>`;
+  }
+  return `<div class="count"><span class="eyebrow">Viagem concluída</span><p class="count-big">Até a próxima!</p>
+    <p class="count-foot">O roteiro continua aqui para consulta.</p></div>`;
+}
+function tickCount(){
+  const el = $('#cd-d'); if (!el) return;
+  let ms = new Date(TRIP.start) - now();
+  if (ms <= 0){ render(); return; }
+  const d = Math.floor(ms / 864e5); ms -= d * 864e5;
+  const h = Math.floor(ms / 36e5); ms -= h * 36e5;
+  const m = Math.floor(ms / 6e4); ms -= m * 6e4;
+  const s = Math.floor(ms / 1e3);
+  el.textContent = String(d).padStart(2,'0');
+  $('#cd-h').textContent = String(h).padStart(2,'0');
+  $('#cd-m').textContent = String(m).padStart(2,'0');
+  $('#cd-s').textContent = String(s).padStart(2,'0');
+}
+function renderOverview(){
+  const t = todayId(), n = now();
+  const views = DAYS.map(resolve);
+  const parkDays = views.filter(v => ['mk','epcot','hs','ak','usf','ioa','epic','seaworld','busch'].includes(v.cat)).length;
+  const stats = [
+    [parkDays, 'dias de parque', '#504DF4', '#DE5BF8'],
+    [3, 'dias de compras', CATS.compras.a1, CATS.compras.a2],
+    [1, 'dia livre', CATS.livre.a1, CATS.livre.a2],
+    [13, 'dias no total', CATS.viagem.a1, CATS.viagem.a2]
+  ].map(([b, l, a1, a2]) => `<span class="stat" style="--a1:${a1};--a2:${a2}"><i></i><b>${b}</b> ${l}</span>`).join('');
+  const pend = TODO.map(p => `<li><button class="pend-row" type="button" data-go="dia-${p.day}" data-sev="${p.sev}">
+      <span class="sv"></span><span class="dt">${p.day}/12</span><span class="tx">${esc(p.text)}</span>${ico('chevR')}</button></li>`).join('');
+  const wallet = views.map((v, i) => {
+    const past = tripState() !== 'before' && v.date < orlDate(n) && v.id !== t;
+    const flag = v.warnFlag || v.flag;
+    return `<button class="mp${past ? ' is-past' : ''}${t === v.id ? ' is-today' : ''}" type="button" data-go="dia-${v.id}" style="--a1:${v.a1};--a2:${v.a2};--i:${i}">
+      <span class="gl">${ico(v.glyph)}</span>
+      ${flag ? `<span class="flag">${esc(flag)}</span>` : ''}
+      <span class="mp-d"><b>${v.id}</b><span>${v.wd} · dez</span></span>
+      <span class="mp-perf" aria-hidden="true"></span>
+      <span><span class="mp-t">${esc(v.title)}</span><span class="mp-c">${esc(v.label)}</span></span>
+    </button>`;
+  }).join('');
+  return `<section class="ov">
+    <div class="ov-head">
+      <div class="hero">
+        <span class="eyebrow">Roteiro da viagem</span>
+        <h1>Orlando<span>Dezembro 2026</span></h1>
+        <p class="lede">Treze dias de parques, compras e descanso. Toque em um passe para ver horários, endereços e a rota até cada lugar.</p>
+      </div>
+      ${countHTML()}
+    </div>
+    <div class="stats">${stats}</div>
+    <div class="pend">
+      <div class="sec-h"><h2>Para resolver antes de ir</h2><small>${TODO.length} itens</small></div>
+      <ul>${pend}</ul>
+    </div>
+    <div>
+      <div class="sec-h"><h2>Seus passes</h2><small>04 a 16 de dezembro</small></div>
+      <div class="wallet">${wallet}</div>
+    </div>
+  </section>`;
+}
+
+/* ---------- dia ---------- */
+function placeHTML(key){
+  const P = PLACES[key];
+  if (!P.addr){
+    return `<div class="place tbd"><div class="place-n">${esc(P.name)}</div><div class="addr">${esc(P.tbd)}</div></div>`;
+  }
+  return `<div class="place">
+    <div class="place-n">${esc(P.name)}</div>
+    <div class="addr">${esc(P.addr)}</div>
+    ${P.note ? `<div class="place-note">${ico('pin')}<span>${esc(P.note)}</span></div>` : ''}
+    ${placeActions(P)}
+  </div>`;
+}
+function passHTML(v){
+  const stats = v.stats ? `<div class="pstats">${v.stats.map(([l, val]) =>
+    `<div class="pstat"><span>${l}</span><b class="${/^\d\d:\d\d$/.test(val) ? '' : 'sm'}">${esc(val)}</b></div>`).join('')}</div>` : '';
+  const swaps = v.slots.length ? `<div class="swap-row">${v.slots.map(s =>
+    `<button class="swap" type="button" data-pick="${s.key}">${ico('swap')}<span><small>${esc(s.label)}</small><b>${esc(PLACES[s.val].short)}</b></span><em>Trocar</em></button>`).join('')}</div>` : '';
+  const flag = v.warnFlag || v.flag;
+  const stub = v.places.length ? `<div class="perf" aria-hidden="true"><i></i><i></i></div>
+    <div class="stub"><div class="stub-h">${v.places.length > 1 ? 'Endereços do dia' : 'Endereço'}</div>${v.places.map(placeHTML).join('')}</div>` : '';
+  return `<article class="pass b-pass" style="--a1:${v.a1};--a2:${v.a2}" id="pass">
+    <div class="pass-main">
+      <span class="pass-gl" aria-hidden="true">${ico(v.glyph)}</span>
+      <div class="pass-top">
+        <span class="ptag">${esc(v.label)}</span>
+        ${flag ? `<span class="ptag warn">${ico('alert')}${esc(flag)}</span>` : `<span class="pwhen">${v.wd} · ${v.id} dez 2026</span>`}
+      </div>
+      <h1 class="pass-title">${esc(v.title)}</h1>
+      <p class="pass-sub">${esc(v.sub)}${flag ? ` · ${v.wd}, ${v.id}/12` : ''}</p>
+      ${stats}
+      ${swaps}
+    </div>
+    ${stub}
+  </article>`;
+}
+function timelineHTML(v){
+  if (!v.items.length){
+    const msg = v.empty || 'Nenhum horário fixo.';
+    return `<section class="card b-tl"><div class="sec-h"><h2>Programação</h2></div><p class="tl-empty">${msg}</p></section>`;
+  }
+  const st = itemStates(v);
+  const lis = v.items.map((it, i) => {
+    const s = st[i];
+    const badge = it.tbd ? '<span class="badge tbd">a definir</span>' : it.open ? '<span class="badge tbd">em aberto</span>' : s === 'now' ? '<span class="badge now">agora</span>' : s === 'next' ? '<span class="badge next">próximo</span>' : '';
+    const tz = it.tz === 'BRT' ? '<small>Brasília</small>' : it.tz === 'ORL' ? '<small>Orlando</small>' : '';
+    const rot = it.rot === 'land' ? 'ico-land' : it.rot === 'up' ? 'ico-up' : '';
+    return `<li class="tl-item" data-state="${s}" style="--i:${i}">
+      <div class="tl-time">${it.t === 'x' ? '--:--' : it.t}${tz}</div>
+      <div class="tl-node">${ico(it.ico, rot)}</div>
+      <div class="tl-body">
+        <div class="tl-title">${esc(it.title)} ${badge}</div>
+        ${it.desc ? `<p class="tl-desc">${esc(it.desc)}</p>` : ''}
+        ${it.warn ? `<div class="tl-warn">${ico('alert')}<span>${esc(it.warn)}</span></div>` : ''}
+      </div></li>`;
+  }).join('');
+  return `<section class="card b-tl"><div class="sec-h"><h2>Programação</h2><small>${v.items.some(i => i.tz) ? 'horário local' : 'horário de Orlando'}</small></div><ol class="tl">${lis}</ol></section>`;
+}
+function renderDay(id){
+  const day = dayById(id); const v = resolve(day); const i = idx(id);
+  const prev = DAYS[i - 1], next = DAYS[i + 1];
+  const opts = day.options ? `<section class="b-opts" style="--a1:${v.a1};--a2:${v.a2}">
+      <div class="seg" data-opt="${S.opt}" role="group" aria-label="Opções do dia ${day.id}">
+        <span class="seg-ind"></span>
+        ${['o1','o2'].map(k => `<button type="button" data-opt="${k}" aria-pressed="${S.opt === k}"><b>${day.options[k].label}</b><span>${day.options[k].hint}</span></button>`).join('')}
+      </div>
+      <p class="seg-note">${v.optNote}</p></section>` : '';
+  const alert = v.alert ? `<section class="alert b-alert" role="note">${ico('alert')}<div><h3>${esc(v.alert.title)}</h3><p>${esc(v.alert.text)}</p>
+      <ul>${v.alert.opts.map(o => `<li>${esc(o)}</li>`).join('')}</ul></div></section>` : '';
+  const tips = v.tips.length ? `<section class="card tips b-tips"><div class="sec-h"><h2>Dicas do dia</h2></div>
+      <ul>${v.tips.map(t => `<li>${ico('spark')}<span>${esc(t)}</span></li>`).join('')}</ul></section>` : '';
+  const ideas = v.ideas ? `<section class="card b-ideas"><div class="sec-h"><h2>Ideias para o dia livre</h2><small>opcional</small></div>
+      <div class="ideas-g">${v.ideas.map(k => { const P = PLACES[k]; return `<div class="idea"><h3>${esc(P.name)}</h3><p>${esc(P.blurb)}</p>
+        <div class="addr">${esc(P.addr)}</div>${placeActions(P, 'g')}</div>`; }).join('')}</div></section>` : '';
+  const end = v.end ? `<section class="card fim b-ideas"><div class="sec-h"><h2>Resumo da viagem</h2></div>
+      <p>7 dias de parque, 3 de compras e 1 dia livre entre 04 e 16 de dezembro.</p>
+      <button class="act-g pri" type="button" data-go="visao-geral">${ico('grid')}Ver todos os passes</button></section>` : '';
+  const nav = `<nav class="daynav b-nav" aria-label="Navegar entre dias">
+      ${prev ? `<button class="dn-btn" type="button" data-go="dia-${prev.id}">${ico('chevL')}<div><span>${prev.wd} ${prev.id}</span><b>${esc(resolve(prev).title)}</b></div></button>` : '<span></span>'}
+      ${next ? `<button class="dn-btn next" type="button" data-go="dia-${next.id}"><div><span>${next.wd} ${next.id}</span><b>${esc(resolve(next).title)}</b></div>${ico('chevR')}</button>` : '<span></span>'}
+    </nav>`;
+  return `<section class="day" style="--a1:${v.a1};--a2:${v.a2}"><div class="day-grid">
+      <div class="col">${passHTML(v)}${alert}${tips}</div>
+      <div class="col">${opts}${timelineHTML(v)}${ideas}${end}</div>
+      ${nav}
+    </div></section>`;
+}
+
+/* ---------- faixa ao vivo ---------- */
+function renderLive(){
+  const el = $('#live');
+  const t = todayId();
+  if (!t){ el.hidden = true; return; }
+  const v = resolve(dayById(t));
+  const st = itemStates(v);
+  const cur = v.items[st.indexOf('now')], nxt = v.items[st.indexOf('next')];
+  let txt = `<b>${v.wd} ${v.id}: ${esc(v.title)}</b>`;
+  if (cur) txt += ` · Agora: ${esc(cur.title)}`;
+  if (nxt) txt += ` · Depois: ${esc(nxt.title)} às ${nxt.t} (em ${inLabel(absTime(v.date, nxt.t, nxt.tz) - now())})`;
+  el.innerHTML = `<span class="live-dot"></span><span class="tag">${sim ? 'Prévia' : 'Ao vivo'}</span><span>${txt}</span>
+    ${current !== 'dia-' + t ? `<a href="#dia-${t}" data-go="dia-${t}">Abrir</a>` : ''}
+    ${sim ? '<button type="button" data-sim-off>Sair da prévia</button>' : ''}`;
+  el.hidden = false;
+}
+
+/* ---------- roteamento ---------- */
+let current = null;
+function viewFromHash(){
+  const h = location.hash.replace('#', '');
+  if (h === 'visao-geral') return h;
+  if (/^dia-\d\d$/.test(h) && dayById(h.slice(4))) return h;
+  return null;
+}
+function render(focus){
+  const view = viewFromHash() || (todayId() ? 'dia-' + todayId() : 'visao-geral');
+  const changed = view !== current;
+  current = view;
+  const main = $('#main');
+  main.innerHTML = view === 'visao-geral' ? renderOverview() : renderDay(view.slice(4));
+  renderStrip(view);
+  renderLive();
+  if (changed) window.scrollTo({ top:0, behavior:'auto' });
+  if (focus) main.focus({ preventScroll:true });
+  tickCount();
+  document.title = view === 'visao-geral' ? 'Roteiro Orlando 2026' : `${resolve(dayById(view.slice(4))).title} · ${view.slice(4)}/12 · Roteiro Orlando 2026`;
+}
+function go(view){
+  if (location.hash === '#' + view) render(true);
+  else location.hash = view;
+}
+addEventListener('hashchange', () => render(true));
+
+/* ---------- folha de escolha de parque ---------- */
+function findSlot(key){
+  for (const d of DAYS){
+    if (d.slot && d.slot.key === key) return { slot:d.slot, day:d };
+    if (d.options) for (const o of Object.values(d.options)) for (const s of o.slots) if (s.key === key) return { slot:s, day:d };
+  }
+}
+let lastFocus = null;
+function openSheet(key){
+  const { slot, day } = findSlot(key);
+  const cur = choice(slot);
+  const notes = slot.evening ? (DATE_NOTES[day.date] || {}) : {};
+  $('#sheet-title').textContent = slot.label;
+  $('#sheet-sub').textContent = `${day.wd}, ${day.id} de dezembro. A escolha fica salva neste aparelho.`;
+  $('#sheet-list').innerHTML = slot.list.map(k => {
+    const P = PLACES[k], C = CATS[P.cat];
+    return `<button class="opt" type="button" data-choose="${key}:${k}" aria-pressed="${k === cur}" style="--a1:${C.a1};--a2:${C.a2}">
+      <span class="opt-sw">${ico(C.glyph)}</span>
+      <span><b>${esc(P.name)}</b><span>${esc(P.blurb || '')}</span>${notes[k] ? `<span class="w">${esc(notes[k])}</span>` : ''}</span>
+      <span class="ck">${ico('check')}</span></button>`;
+  }).join('');
+  lastFocus = document.activeElement;
+  $('#sheet').hidden = false;
+  document.body.style.overflow = 'hidden';
+  ($('#sheet-list [aria-pressed="true"]') || $('#sheet-list .opt')).focus();
+}
+function closeSheet(){
+  $('#sheet').hidden = true;
+  document.body.style.overflow = '';
+  if (lastFocus && lastFocus.isConnected) lastFocus.focus();
+}
+
+/* ---------- avisos rápidos ---------- */
+let toastT;
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 2200);
+}
+function copyText(text, btn){
+  const fallback = () => {
+    const el = btn.closest('.place,.idea')?.querySelector('.addr');
+    if (el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    toast('Endereço selecionado. Use Copiar do sistema.');
+  };
+  try {
+    navigator.clipboard.writeText(text).then(() => toast('Endereço copiado'), fallback);
+  } catch(e){ fallback(); }
+}
+
+/* ---------- tema: só noturno ---------- */
+function effectiveTheme(){ return 'dark'; }
+
+/* ---------- eventos ---------- */
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]');
+  if (g){ e.preventDefault(); go(g.dataset.go); return; }
+  const p = e.target.closest('[data-pick]');
+  if (p){ openSheet(p.dataset.pick); return; }
+  const c = e.target.closest('[data-choose]');
+  if (c){
+    const [key, val] = c.dataset.choose.split(':');
+    S.choices[key] = val; save(); closeSheet(); render();
+    toast(`${PLACES[val].short} escolhido`);
+    return;
+  }
+  if (e.target.closest('[data-close]')){ closeSheet(); return; }
+  const o = e.target.closest('button[data-opt]');
+  if (o){ S.opt = o.dataset.opt; save(); render(); return; }
+  const cp = e.target.closest('[data-copy]');
+  if (cp){ copyText(cp.dataset.copy, cp); return; }
+  if (e.target.closest('[data-sim-off]')){ sim = null; $('#sim-btn').textContent = 'Ver prévia do modo ao vivo'; render(); return; }
+});
+$('#sim-btn').addEventListener('click', () => {
+  if (sim){ sim = null; $('#sim-btn').textContent = 'Ver prévia do modo ao vivo'; }
+  else { sim = { start: +new Date('2026-12-07T13:40:00-05:00'), setAt: Date.now() }; $('#sim-btn').textContent = 'Sair da prévia'; location.hash = 'dia-07'; }
+  render(true);
+  window.scrollTo({ top:0 });
+});
+document.addEventListener('keydown', e => {
+  if (!$('#sheet').hidden){ if (e.key === 'Escape') closeSheet(); return; }
+  if (e.target.closest('input,textarea,select')) return;
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  step(e.key === 'ArrowRight' ? 1 : -1);
+});
+function step(dir){
+  const view = current || 'visao-geral';
+  const order = ['visao-geral', ...DAYS.map(d => 'dia-' + d.id)];
+  const i = order.indexOf(view) + dir;
+  if (i >= 0 && i < order.length) go(order[i]);
+}
+/* deslizar para trocar de dia no celular */
+(() => {
+  let x0 = null, y0 = null, t0 = 0;
+  const main = $('#main');
+  main.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1 || e.target.closest('.seg,.acts,.swap-row')) { x0 = null; return; }
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
+  }, { passive:true });
+  main.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    x0 = null;
+    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.6 && Date.now() - t0 < 700) step(dx < 0 ? 1 : -1);
+  }, { passive:true });
+})();
+/* brilho do passe acompanha o ponteiro */
+document.addEventListener('pointermove', e => {
+  const pass = e.target.closest && e.target.closest('.pass');
+  if (!pass || e.pointerType !== 'mouse') return;
+  const r = pass.getBoundingClientRect();
+  pass.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+  pass.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+});
+
+/* ---------- céu com estrelas e fogos ---------- */
+const Sky = (() => {
+  const cv = $('#sky'), ctx = cv.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const COLORS = ['#DE5BF8','#A76BFE','#BFF5FD','#F6C76B','#504DF4'];
+  let W = 0, H = 0, dpr = 1, stars = [], bursts = [], light = false, nextBurst = 0, raf = 0;
+  function size(){
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.round(Math.min(130, W * H / 9000));
+    stars = Array.from({ length:n }, () => ({ x:Math.random() * W, y:Math.random() * H * .9, r:Math.random() * 1.3 + .3, p:Math.random() * 6.28, s:.6 + Math.random() * 1.6 }));
+  }
+  function burst(){
+    const x = W * (.15 + Math.random() * .7), y = H * (.08 + Math.random() * .3);
+    const col = COLORS[Math.floor(Math.random() * COLORS.length)];
+    const parts = Array.from({ length:42 }, (_, i) => { const a = i / 42 * 6.283, v = 1.1 + Math.random() * 1.4; return { x, y, vx:Math.cos(a) * v, vy:Math.sin(a) * v, life:1 }; });
+    bursts.push({ col, parts });
+  }
+  function frame(t){
+    ctx.clearRect(0, 0, W, H);
+    const base = light ? '60,70,170' : '235,238,255';
+    for (const s of stars){
+      const a = (light ? .18 : .55) + Math.sin(t / 1000 * s.s + s.p) * (light ? .1 : .35);
+      ctx.fillStyle = `rgba(${base},${Math.max(0, a)})`;
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill();
+    }
+    if (!reduce){
+      if (t > nextBurst){ burst(); nextBurst = t + 5200 + Math.random() * 4200; }
+      for (const b of bursts){
+        ctx.fillStyle = b.col;
+        for (const p of b.parts){
+          p.x += p.vx; p.y += p.vy; p.vy += .018; p.vx *= .985; p.vy *= .985; p.life -= .009;
+          if (p.life <= 0) continue;
+          ctx.globalAlpha = Math.max(0, p.life) * (light ? .45 : .85);
+          ctx.beginPath(); ctx.arc(p.x, p.y, 1.6, 0, 6.283); ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+      bursts = bursts.filter(b => b.parts.some(p => p.life > 0));
+      raf = requestAnimationFrame(frame);
+    }
+  }
+  function start(){ cancelAnimationFrame(raf); if (reduce) frame(0); else raf = requestAnimationFrame(frame); }
+  function recolor(){ light = effectiveTheme() === 'light'; if (reduce) frame(0); }
+  addEventListener('resize', () => { size(); if (reduce) frame(0); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) cancelAnimationFrame(raf); else start(); });
+  return { init(){ size(); recolor(); nextBurst = performance.now() + 1500; start(); }, recolor };
+})();
+
+/* ---------- início ---------- */
+$('#brand-mark').innerHTML = ico('spark');
+render();
+Sky.init();
+setInterval(tickCount, 1000);
+setInterval(() => {
+  renderLive();
+  if (current && current.startsWith('dia-')){
+    const st = itemStates(resolve(dayById(current.slice(4))));
+    const lis = [...document.querySelectorAll('.tl-item')];
+    if (lis.some((li, k) => (st[k] || '') !== li.dataset.state)) render();
+  }
+}, 30000);
+
+})();
+</script>
+</body>
+</html>
