@@ -502,6 +502,7 @@ const PLACES = {
              note:'Estacionamento próprio, a cerca de 2,4 km da garagem principal da Universal. Não use o endereço geral da Universal.'},
   seaworld: {name:'SeaWorld Orlando', addr:'7007 Sea World Dr, Orlando, FL 32821'},
   busch:    {name:'Busch Gardens Tampa Bay', addr:'10165 N McKinley Dr, Tampa, FL 33612', note:'Fica em Tampa, cerca de 1h30 de carro desde a casa.'},
+  shop:     {name:'Shopping (a definir)', tbd:'Escolham o shopping e eu coloco o endereço e a rota.'},
   springs:  {name:'Disney Springs', addr:'1486 Buena Vista Dr, Lake Buena Vista, FL 32830', note:'Entrada gratuita. As garagens Orange e Lime são as mais práticas.'},
   kia:      {name:'Kia Center', addr:'400 W Church St, Orlando, FL 32801', note:'Arena do Orlando Magic, no centro de Orlando.'},
   ksc:      {name:'Kennedy Space Center Visitor Complex', addr:'Space Commerce Way, Merritt Island, FL 32953', blurb:'Centro espacial da NASA, cerca de 1h de carro. Ocupa o dia inteiro.'},
@@ -513,8 +514,8 @@ const PLACES = {
 /* Ingressos. ok = já comprado */
 const TICKETS = [
   {name:'Disney', days:['06','07'], ok:false, note:'2 dias, um parque por dia, sem Park Hopper.'},
-  {name:'Universal', days:['09','13','15'], ok:false, note:'Ingresso especial da Azul: 3 dias, válido por 7 dias corridos (09 a 15).'},
-  {name:'SeaWorld Orlando', days:['10'], ok:true},
+  {name:'Universal', days:['09','10','13'], ok:false, note:'Ingresso especial da Azul: 3 dias, válido por 7 dias corridos.'},
+  {name:'SeaWorld Orlando', days:['15'], ok:true, note:'Mudou do dia 10 para o 15: confiram a data do ingresso.'},
   {name:'Busch Gardens', days:['12'], ok:true},
   {name:'NBA: Magic x 76ers', days:['14'], ok:true, pass:'Ingresso do jogo comprado'}
 ];
@@ -607,17 +608,17 @@ const DAYS = [
   { id:'09', date:'2026-12-09', wd:'Qua', cat:'usf', title:'Universal Studios', sub:'Dia Universal', places:['usf'],
     stats:STATS_PARK, items:PARK_ITEMS(GPS_UNI, 'Chegada ao Universal Studios'),
     tips:[
-      'Usem o ingresso especial de 3 dias da Azul: ele vale por 7 dias corridos e cobre 09, 13 e 15.',
+      'Usem o ingresso especial de 3 dias da Azul: os dias de Universal agora são 09, 10 e 13.',
       'Universal Studios e Islands of Adventure ficam lado a lado e são ligados pelo Hogwarts Express (exige ingresso park-to-park).',
       'Use o app da Universal para filas e filas virtuais.'
     ] },
 
-  { id:'10', date:'2026-12-10', wd:'Qui', cat:'seaworld', title:'SeaWorld Orlando', sub:'Parque marinho', places:['seaworld'],
-    stats:STATS_PARK, items:PARK_ITEMS('Trajeto até o SeaWorld.', 'Chegada ao SeaWorld'),
+  { id:'10', date:'2026-12-10', wd:'Qui', cat:'epic', title:'Epic Universe', sub:'Dia Universal', places:['epic'],
+    stats:STATS_PARK, items:PARK_ITEMS('Destino no GPS: estacionamento próprio do Epic Universe (1001 Epic Blvd).', 'Chegada ao Epic Universe'),
     tips:[
-      'Confira o horário de abertura no site: pode ser 9h ou 10h.',
-      'Mako e Kraken são as montanhas-russas mais fortes. Vá nelas cedo.',
-      'Em dezembro o parque costuma ter programação de Natal à noite.'
+      'Não use o endereço geral da Universal: o Epic Universe tem estacionamento próprio.',
+      'O Epic Universe pode atingir a lotação em alguns dias: chegue na abertura.',
+      'Segundo dia seguido de Universal: o dia livre vem logo depois.'
     ] },
 
   { id:'11', date:'2026-12-11', wd:'Sex', cat:'livre', title:'Dia livre', sub:'Descanso ou passeio opcional', places:[],
@@ -646,11 +647,11 @@ const DAYS = [
       'Domingo costuma ser mais cheio que os dias de semana: chegue na abertura.'
     ] },
 
-  { id:'14', date:'2026-12-14', wd:'Seg', cat:'springs', title:'Disney Springs e Magic x 76ers', sub:'Compras de manhã, NBA à noite', places:['springs','kia'],
-    stats:[['Springs','10:00'],['Saída','16:00'],['Jogo','19:00']],
+  { id:'14', date:'2026-12-14', wd:'Seg', cat:'springs', title:'Shopping e Magic x 76ers', sub:'Shopping de manhã, NBA à noite', places:['shop','kia'],
+    stats:[['Shopping','10:00'],['Saída','16:00'],['Jogo','19:00']],
     items:[
-      {t:'09:30', ico:'car',    title:'Saída de casa', desc:'Trajeto até o Disney Springs.'},
-      {t:'10:00', ico:'bag',    title:'Chegada ao Disney Springs', desc:'Compras, restaurantes e a loja World of Disney.'},
+      {t:'09:30', ico:'car',    title:'Saída de casa', desc:'Trajeto até o shopping.'},
+      {t:'10:00', ico:'bag',    title:'Shopping', desc:'Manhã de compras. Shopping a definir.', tbd:true},
       {t:'14:00', ico:'home',   title:'Volta para casa', desc:'Pausa para descansar antes do jogo.'},
       {t:'16:00', ico:'car',    title:'Saída para o jogo', desc:'Trajeto até o centro de Orlando. No fim da tarde a I-4 costuma ter trânsito.'},
       {t:'19:00', ico:'trophy', title:'Orlando Magic x Philadelphia 76ers', desc:'Jogo da NBA no Kia Center.'}
@@ -658,20 +659,23 @@ const DAYS = [
     tips:[
       'Saindo às 16:00, a chegada deve ficar perto das 17:00, duas horas antes do jogo. Dá tempo de jantar perto da arena.',
       'Deixem os ingressos do jogo salvos no celular antes de sair de casa.',
-      'Com a volta às 14h, priorize as lojas que mais interessam: o complexo é grande.'
+      'O Disney Springs passou para a manhã do dia 16.'
     ] },
 
-  { id:'15', date:'2026-12-15', wd:'Ter', cat:'epic', title:'Epic Universe', sub:'Dia Universal', places:['epic'],
-    stats:STATS_PARK, items:PARK_ITEMS('Destino no GPS: estacionamento próprio do Epic Universe (1001 Epic Blvd).', 'Chegada ao Epic Universe'),
+  { id:'15', date:'2026-12-15', wd:'Ter', cat:'seaworld', title:'SeaWorld Orlando', sub:'Parque marinho · último dia de parque', places:['seaworld'],
+    stats:STATS_PARK, items:PARK_ITEMS('Trajeto até o SeaWorld.', 'Chegada ao SeaWorld'),
     tips:[
-      'Não use o endereço geral da Universal: o Epic Universe tem estacionamento próprio.',
-      'O Epic Universe pode atingir a lotação em alguns dias: chegue na abertura.',
-      'Último dia de parque: deixem as malas adiantadas na noite anterior ou ao voltar.'
+      'Confira o horário de abertura no site: pode ser 9h ou 10h.',
+      'Mako e Kraken são as montanhas-russas mais fortes. Vá nelas cedo.',
+      'Em dezembro o parque costuma ter programação de Natal à noite.',
+      'Último dia de parque: deixem as malas adiantadas.'
     ] },
 
-  { id:'16', date:'2026-12-16', wd:'Qua', cat:'fim', title:'Dia da volta', sub:'LATAM LA8127 · Orlando → São Paulo', places:['mcoB'], end:true,
-    stats:[['Saída','14:00'],['Aeroporto','15:00'],['Voo','18:05']],
+  { id:'16', date:'2026-12-16', wd:'Qua', cat:'fim', title:'Disney Springs e volta', sub:'LATAM LA8127 · Orlando → São Paulo', places:['springs','mcoB'], end:true,
+    stats:[['Springs','09:00'],['Saída','14:00'],['Voo','18:05']],
     items:[
+      {t:'09:00', ico:'bag',      title:'Disney Springs', desc:'Compras, restaurantes e a loja World of Disney, até as 12h.'},
+      {t:'12:00', ico:'home',     title:'Volta para casa e almoço', desc:'Almoço em casa e últimos ajustes nas malas.'},
       {t:'14:00', ico:'car',      title:'Saída para o aeroporto', desc:'Cerca de 25 minutos até o aeroporto, com pedágio no caminho. A família fica na casa e cuida do check-out depois.', sug:true},
       {t:'14:30', ico:'key',      title:'Devolução de um carro', desc:'Nos Terminais A e B, onde fica a LATAM. Sigam as placas Rental Car Return da locadora.', sug:true},
       {t:'15:00', ico:'suitcase', title:'Check-in LATAM', desc:'Cerca de 3 horas antes do voo, nos balcões do Terminal B.', sug:true},
@@ -680,15 +684,17 @@ const DAYS = [
         desc:'Terminal 3 de Guarulhos. Para a conexão até Confins (LA3554), é preciso retirar as malas, passar pela alfândega e despachar de novo no balcão de conexão da LATAM.'}
     ],
     tips:[
-      'Deixem as malas fechadas na noite anterior para sair com calma.',
-      'Confiram a franquia de bagagem do bilhete antes de fechar as malas: compras de outlet pesam.',
+      'Deixem as malas quase fechadas na noite anterior: o tempo entre o Disney Springs e a saída para o aeroporto é curto.',
+      'Confiram a franquia de bagagem do bilhete: as compras do Disney Springs entram na mala de volta.',
       'Se o contrato pedir tanque cheio, abasteçam antes de devolver o carro.',
       'O horário de chegada a São Paulo é estimado pela duração do voo. Confiram no bilhete.'
     ] }
 ];
 
 const TODO = [
+  {day:'15', sev:'warn', text:'O SeaWorld mudou do dia 10 para o 15: confiram se o ingresso tem data marcada.'},
   {day:'06', sev:'info', text:'Escolher o parque do dia 06 (vai ser um só) e comprar o ingresso da Disney.'},
+  {day:'14', sev:'info', text:'Escolher o shopping da manhã do dia 14.'},
   {day:'12', sev:'warn', text:'Busch Gardens fica a ~1h30 e costuma abrir às 10h.'}
 ];
 
