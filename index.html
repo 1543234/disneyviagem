@@ -157,7 +157,7 @@ svg.i.fill{fill:currentColor;stroke:none}
 .mp-c{display:block;font:600 9.5px/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;opacity:.82;margin-top:5px}
 .mp.is-past{filter:saturate(.35) brightness(.9)}
 .mp.is-today{outline:2px solid var(--ok);outline-offset:3px}
-.mp .flag{position:absolute;top:12px;right:12px;font:600 9px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;padding:4px 6px;border-radius:6px;background:rgba(0,0,0,.28)}
+.mp .flag{align-self:center;opacity:1;font:600 9px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;padding:4px 6px;border-radius:6px;background:rgba(0,0,0,.28)}
 
 @keyframes rise{from{opacity:.35;transform:translateY(10px)}to{opacity:1;transform:none}}
 </style>
@@ -326,6 +326,33 @@ svg.i.fill{fill:currentColor;stroke:none}
 .foot p{margin:14px 0 0;flex:1 1 280px}
 .foot button{margin-top:14px;border:1px solid var(--line);background:var(--glass);border-radius:999px;padding:8px 14px;font-size:13px;color:var(--ink)}
 
+/* ---------- casa, ingressos e rotas ---------- */
+.home-btn{margin-left:auto;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 15px 0 12px;border-radius:999px;
+  border:1px solid var(--line);background:var(--glass);color:var(--ink);font-weight:600;font-size:14px;text-decoration:none;white-space:nowrap}
+.home-btn:hover{background:var(--glass-2)}
+.home-btn > span{display:grid;place-items:center;color:var(--accent)}
+.home-btn svg.i{width:18px;height:18px}
+.tk{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;margin-top:-4px;padding:6px 11px;border-radius:999px;
+  font:600 12.5px/1.1 var(--f-body);border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.14)}
+.tk svg.i{width:15px;height:15px}
+.tk.ok{background:rgba(4,38,26,.42);border-color:rgba(91,227,176,.7);color:#D2FFEE}
+.tk.buy{background:rgba(20,8,0,.32);border-color:rgba(255,200,120,.55);color:#FFE2B0}
+.route-note{margin:2px 0 0;font-size:12.5px;line-height:1.45;opacity:.85}
+.tl-time small + small{margin-top:2px}
+.ov-two{display:grid;gap:18px}
+.tix-row{width:100%;display:grid;grid-template-columns:4px minmax(0,1fr) auto;align-items:center;gap:12px;text-align:left;
+  padding:11px 12px 11px 0;border-radius:14px;border:1px solid var(--line);background:var(--glass-hi);overflow:hidden}
+.tix-row:hover{background:var(--glass-2)}
+.tix-row .sv{align-self:stretch;border-radius:0 4px 4px 0;background:var(--ok)}
+.tix-row[data-st="buy"] .sv{background:var(--warn)}
+.tix-row .tx{font-size:14.5px;line-height:1.4;min-width:0}
+.tix-row .tx b{font-weight:600}
+.tix-row .tx small{display:block;margin-top:2px;font-size:13px;color:var(--ink-2)}
+.tix-row .st{font:600 9.5px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border-radius:7px;white-space:nowrap;
+  color:var(--ok);background:rgba(91,227,176,.12);border:1px solid rgba(91,227,176,.35)}
+.tix-row[data-st="buy"] .st{color:var(--warn);background:var(--warn-bg);border-color:rgba(255,181,71,.4)}
+@media (min-width:980px){ .ov-two{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start} }
+
 /* ---------- telas maiores ---------- */
 @media (min-width:640px){ .ideas-g{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (min-width:980px){
@@ -355,6 +382,7 @@ svg.i.fill{fill:currentColor;stroke:none}
           <span class="mark" id="brand-mark"></span>
           <span class="brand-t"><b>Orlando</b><span>04–16 dez · 2026</span></span>
         </button>
+        <a class="home-btn" id="home-btn" href="https://www.google.com/maps" target="_blank" rel="noopener" aria-label="Ir para casa: abre a rota no Google Maps a partir de onde você está"><span id="home-ico" aria-hidden="true"></span>Ir para casa</a>
       </div>
       <nav class="strip" id="strip" aria-label="Dias da viagem"></nav>
       <div class="live" id="live" hidden></div>
@@ -364,7 +392,7 @@ svg.i.fill{fill:currentColor;stroke:none}
   <main id="main" class="wrap" tabindex="-1"></main>
 
   <footer class="wrap foot">
-    <p>Horários no fuso de Orlando (UTC−5 em dezembro), exceto a partida do Brasil, marcada como Brasília. Endereços e regras dos parques conferidos em 31/10/2026.</p>
+    <p>Horários no fuso de Orlando (UTC−5 em dezembro), exceto os marcados como Brasília. Endereços, voos e regras dos ingressos conferidos em 21/11/2026.</p>
     <button type="button" id="sim-btn">Ver prévia do modo ao vivo</button>
   </footer>
 </div>
@@ -387,7 +415,7 @@ svg.i.fill{fill:currentColor;stroke:none}
 /* ===== Dados do roteiro (edite aqui) ===== */
 const TRIP = {
   start: '2026-12-04T08:00:00-03:00',   // partida de casa (Brasília)
-  end:   '2026-12-16T23:59:00-05:00'
+  end:   '2026-12-17T09:00:00-03:00'    // chegada a São Paulo, com folga
 };
 
 const ICONS = {
@@ -417,7 +445,9 @@ const ICONS = {
   star:'<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z"/>',
   grid:'<rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/>',
   check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
-  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>'
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  key:'<circle cx="7.5" cy="15.5" r="3.5"/><path d="M10 13l9.5-9.5M16 7l2.5 2.5M13.5 9.5l2 2"/>',
+  suitcase:'<rect x="4" y="7.5" width="16" height="12" rx="2.2"/><path d="M9 7.5V5.6A1.6 1.6 0 0 1 10.6 4h2.8A1.6 1.6 0 0 1 15 5.6v1.9"/><path d="M8.5 11v5M15.5 11v5"/>'
 };
 
 /* Cores por tipo de dia: a1 é o tom mais forte (ícones), a2 o fim do degradê */
@@ -438,13 +468,21 @@ const CATS = {
   fim:     {label:'Encerramento',    a1:'#B57A12', a2:'#D45AE8', glyph:'star'}
 };
 
-/* Locais. nav = destino usado no GPS quando é diferente do endereço; origin = ponto de partida fixo da rota */
+/* Locais. nav = destino usado no GPS; here = rota a partir da localização atual (sem origem fixa);
+   fromLabel = como o local aparece quando é o ponto de partida da rota. Sem indicação, a rota sai da casa. */
 const PLACES = {
+  casa:     {name:'Casa em Kissimmee', short:'casa', fromLabel:'da casa', addr:'2437 Reading Trail, Kissimmee, FL 34746',
+             nav:'2437 Reading Trail, Kissimmee, FL 34746',
+             note:'Fica no Storey Lake. Peçam antes as instruções de acesso e de check-in, porque vocês chegam à noite.'},
   cnf:      {name:'Aeroporto Internacional de Belo Horizonte (Confins)', addr:'Rodovia LMG-800, Confins - MG, 33500-900',
-             nav:'Aeroporto Internacional de Belo Horizonte, Confins - MG',
+             nav:'Aeroporto Internacional de Belo Horizonte, Confins - MG', here:true,
              note:'Aeroporto de partida, a cerca de 1 hora de Belo Horizonte.'},
-  mco:      {name:'Aeroporto Internacional de Orlando (MCO)', addr:'1 Jeff Fuqua Blvd, Orlando, FL 32827', note:'Chegada do voo Azul AD 8730.'},
-  casa:     {name:'Casa em Kissimmee', addr:'Kissimmee, FL', note:'Endereço provisório. Troque pelo da casa quando reservar.'},
+  mcoC:     {name:'Aeroporto de Orlando (MCO), Terminal C', fromLabel:'do aeroporto', addr:'10200 Jeff Fuqua Blvd S, Orlando, FL 32827',
+             nav:'Orlando International Airport Terminal C, 10200 Jeff Fuqua Blvd S, Orlando, FL 32827', here:true,
+             note:'Chegada do voo Azul AD 8730 e retirada dos 2 carros.'},
+  mcoB:     {name:'Aeroporto de Orlando (MCO), Terminais A e B', addr:'1 Jeff Fuqua Blvd, Orlando, FL 32827',
+             nav:'Orlando International Airport Terminal B, 1 Jeff Fuqua Blvd, Orlando, FL 32827',
+             note:'Devolução dos carros e voo LATAM LA8127, que sai do Terminal B. Ao chegar, sigam as placas Rental Car Return da locadora.'},
   vineland: {name:'Orlando Vineland Premium Outlets', addr:'8200 Vineland Ave, Orlando, FL 32821'},
   intl:     {name:'Orlando International Premium Outlets', addr:'4951 International Dr, Orlando, FL 32819'},
   mk:       {name:'Magic Kingdom', short:'Magic Kingdom', cat:'mk', addr:'1180 Seven Seas Dr, Lake Buena Vista, FL 32830',
@@ -463,7 +501,7 @@ const PLACES = {
   epic:     {name:'Universal Epic Universe', short:'Epic Universe', cat:'epic', addr:'1001 Epic Blvd, Orlando, FL 32819',
              note:'Estacionamento próprio, a cerca de 2,4 km da garagem principal da Universal. Não use o endereço geral da Universal.'},
   seaworld: {name:'SeaWorld Orlando', addr:'7007 Sea World Dr, Orlando, FL 32821'},
-  busch:    {name:'Busch Gardens Tampa Bay', addr:'10165 N McKinley Dr, Tampa, FL 33612', note:'Fica em Tampa, cerca de 1h30 de carro desde Kissimmee.'},
+  busch:    {name:'Busch Gardens Tampa Bay', addr:'10165 N McKinley Dr, Tampa, FL 33612', note:'Fica em Tampa, cerca de 1h30 de carro desde a casa.'},
   springs:  {name:'Disney Springs', addr:'1486 Buena Vista Dr, Lake Buena Vista, FL 32830', note:'Entrada gratuita. As garagens Orange e Lime são as mais práticas.'},
   kia:      {name:'Kia Center', addr:'400 W Church St, Orlando, FL 32801', note:'Arena do Orlando Magic, no centro de Orlando.'},
   ksc:      {name:'Kennedy Space Center Visitor Complex', addr:'Space Commerce Way, Merritt Island, FL 32953', blurb:'Centro espacial da NASA, cerca de 1h de carro. Ocupa o dia inteiro.'},
@@ -471,6 +509,15 @@ const PLACES = {
   millenia: {name:'The Mall at Millenia', addr:'4200 Conroy Rd, Orlando, FL 32839', blurb:'Shopping com marcas de luxo e lojas de departamento.'},
   gatorland:{name:'Gatorland', addr:'14501 S Orange Blossom Trail, Orlando, FL 32837', blurb:'Parque clássico da Flórida, com jacarés e tirolesa.'}
 };
+
+/* Ingressos. ok = já comprado */
+const TICKETS = [
+  {name:'Disney', days:['06','07'], ok:false, note:'2 dias. Park Hopper só se escolherem a opção 2 do dia 06.'},
+  {name:'Universal', days:['09','13','15'], ok:false, note:'Precisa valer de 09 a 15: são 7 dias corridos.'},
+  {name:'SeaWorld Orlando', days:['10'], ok:true},
+  {name:'Busch Gardens', days:['12'], ok:true},
+  {name:'NBA: Magic x 76ers', days:['14'], ok:true, pass:'Ingresso do jogo comprado'}
+];
 
 /* Avisos que valem só para uma data e só para o parque que vai até a noite */
 const DATE_NOTES = {
@@ -480,25 +527,28 @@ const DATE_NOTES = {
 const PARK_ITEMS = (gpsText, parkLabel) => ([
   {t:'08:30', ico:'car',  title:'Saída de casa', desc:gpsText},
   {t:'09:00', ico:'gate', title:parkLabel, desc:'Abertura do parque. Chegar cedo garante as filas mais curtas do dia.'},
-  {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para Kissimmee.'}
+  {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para a casa.'}
 ]);
 const STATS_PARK = [['Saída','08:30'],['Parque','09:00'],['Volta','21:00']];
 const GPS_UNI = 'Destino no GPS: garagem principal da Universal (CityWalk).';
 
 const DAYS = [
-  { id:'04', date:'2026-12-04', wd:'Sex', cat:'viagem', title:'Embarque', sub:'Azul AD 8730 · Confins → Orlando', places:['cnf','mco','casa'],
+  { id:'04', date:'2026-12-04', wd:'Sex', cat:'viagem', title:'Embarque', sub:'Azul AD 8730 · Confins → Orlando', places:['cnf','mcoC',{key:'casa', from:'mcoC'}],
     stats:[['Partida','08:00'],['Voo','12:25'],['Chegada','19:30']],
     items:[
       {t:'08:00', tz:'BRT', ico:'car',   title:'Partida de casa', desc:'Saída de casa, em Belo Horizonte, até o Aeroporto de Confins. Conte cerca de 1 hora de estrada.'},
       {t:'12:25', tz:'BRT', ico:'plane', rot:'up', title:'Voo Azul AD 8730', desc:'Confins (CNF) → Orlando (MCO), voo direto de cerca de 9 horas. Em dezembro, Orlando está 2 horas atrás de Brasília.'},
-      {t:'19:30', tz:'ORL', ico:'plane', rot:'land', title:'Chegada em Orlando', desc:'Imigração e bagagens podem levar mais de 1 hora.'},
-      {t:'20:30', ico:'home', title:'Ida para casa', desc:'Do aeroporto até Kissimmee, cerca de 30 minutos.', warn:'Com imigração, bagagens e retirada do carro, a saída do aeroporto tende a ficar mais perto das 21h.'},
+      {t:'19:30', tz:'ORL', ico:'plane', rot:'land', title:'Chegada em Orlando', desc:'Desembarque no Terminal C. Imigração e malas podem levar mais de 1 hora.'},
+      {t:'20:30', ico:'key',  title:'Carros e ida para casa', desc:'Retirada dos 2 carros na locadora do aeroporto e cerca de 25 minutos até a casa. Se a locadora não tiver balcão no Terminal C, o trem Terminal Link leva aos Terminais A e B.',
+        warn:'Com imigração, malas e a fila da locadora, a saída do aeroporto deve ficar entre 21h e 22h.'},
       {t:'21:00', ico:'cart', title:'Compras básicas', desc:'Mercado rápido: água, café da manhã e o essencial para o dia seguinte.'}
     ],
     tips:[
       'Chegue a Confins 3 horas antes do voo internacional: saindo às 08:00, você chega por volta das 09:00.',
-      'Baixe os apps dos parques ainda no Brasil, com Wi‑Fi.',
-      'Leve casaco leve e protetor solar na bagagem de mão.'
+      'Combinem quem dirige cada carro e salvem o endereço da casa nos dois celulares antes de sair do aeroporto.',
+      'Vários caminhos do aeroporto até a casa têm pedágio. Vejam com a locadora como funciona a cobrança.',
+      'Se a chegada atrasar, confira o horário do mercado: muitos fecham entre 22h e 23h. O mercado completo já está na manhã do dia 05.',
+      'Baixe os apps dos parques ainda no Brasil, com Wi‑Fi.'
     ] },
 
   { id:'05', date:'2026-12-05', wd:'Sáb', cat:'compras', title:'Outlet Vineland', sub:'Compras e adaptação', places:['vineland'],
@@ -514,7 +564,7 @@ const DAYS = [
       'Não deixe sacolas à vista dentro do carro.'
     ] },
 
-  { id:'06', date:'2026-12-06', wd:'Dom', cat:'hs', title:'Dia Disney', sub:'Duas opções', places:[], flag:'Parques a definir',
+  { id:'06', date:'2026-12-06', wd:'Dom', cat:'hs', title:'Dia Disney', sub:'Duas opções', places:[], flag:'Parques a definir', flagShort:'A definir',
     options:{
       o1:{ label:'Opção 1', hint:'1 parque, dia inteiro',
         note:'<b>Ingresso comum.</b> Mais tempo em um parque só, sem deslocamento no meio do dia.',
@@ -523,7 +573,7 @@ const DAYS = [
         items:[
           {t:'08:30', ico:'car',  title:'Saída de casa', desc:'GPS para o estacionamento do {p}.'},
           {t:'09:00', ico:'gate', title:'Chegada ao {p}', desc:'Abertura do parque. Chegar cedo garante as filas mais curtas do dia.', noteFor:'p'},
-          {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para Kissimmee.'}
+          {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para a casa.'}
         ] },
       o2:{ label:'Opção 2', hint:'2 parques (Park Hopper)',
         note:'<b>Exige ingresso com Park Hopper.</b> A troca pode ser a qualquer hora depois de entrar no primeiro parque. Você vê mais um parque, mas perde cerca de 1 hora no deslocamento.',
@@ -534,14 +584,14 @@ const DAYS = [
           {t:'08:30', ico:'car',  title:'Saída de casa', desc:'GPS para o estacionamento do {p1}.'},
           {t:'09:00', ico:'gate', title:'Parque 1: {p1}', desc:'Manhã no primeiro parque.', noteFor:'p1'},
           {t:'15:00', ico:'swap', title:'Ida ao parque 2: {p2}', desc:'Troca de parque. De carro, conte o tempo de estacionar de novo.', noteFor:'p2'},
-          {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para Kissimmee.'}
+          {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para a casa.'}
         ] }
     },
     tips:[
       'Os parques deste dia ainda estão em aberto: toque em “Trocar” para comparar endereços e avisos.',
+      'Decidam a opção antes de comprar o ingresso da Disney: só a opção 2 precisa de Park Hopper.',
       'Nesse dia o Hollywood Studios funciona em horário normal. A festa de Natal dele cai nos dias 05 e 07.',
-      'O Animal Kingdom costuma fechar no fim da tarde: funciona melhor como primeiro parque.',
-      'O EPCOT costuma ter fogos à noite e, em dezembro, o Festival of the Holidays.'
+      'O Animal Kingdom costuma fechar no fim da tarde: funciona melhor como primeiro parque.'
     ] },
 
   { id:'07', date:'2026-12-07', wd:'Seg', cat:'mk', title:'Magic Kingdom', sub:'Dia Disney', places:['mk'],
@@ -549,7 +599,7 @@ const DAYS = [
     items:[
       {t:'08:30', ico:'car',  title:'Saída de casa', desc:'GPS para o estacionamento no Transportation & Ticket Center (TTC).'},
       {t:'09:00', ico:'gate', title:'Chegada ao Magic Kingdom', desc:'Do TTC ao portão, de monotrilho ou balsa: conte de 20 a 30 minutos.'},
-      {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para Kissimmee.'}
+      {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para a casa.'}
     ],
     tips:[
       'Na segunda não tem festa de Natal no Magic Kingdom: o parque funciona até o horário normal.',
@@ -573,6 +623,7 @@ const DAYS = [
   { id:'09', date:'2026-12-09', wd:'Qua', cat:'usf', title:'Universal Studios', sub:'Dia Universal', places:['usf'],
     stats:STATS_PARK, items:PARK_ITEMS(GPS_UNI, 'Chegada ao Universal Studios'),
     tips:[
+      'O ingresso comum de 3 dias da Universal vale por 5 dias corridos. Daqui até o dia 15 são 7: confiram a validade antes de comprar.',
       'Universal Studios e Islands of Adventure ficam lado a lado e são ligados pelo Hogwarts Express (exige ingresso park-to-park).',
       'Use o app da Universal para filas e filas virtuais.'
     ] },
@@ -622,6 +673,7 @@ const DAYS = [
     ],
     tips:[
       'Saindo às 16:00, a chegada deve ficar perto das 17:00, duas horas antes do jogo. Dá tempo de jantar perto da arena.',
+      'Deixem os ingressos do jogo salvos no celular antes de sair de casa.',
       'Com a volta às 14h, priorize as lojas que mais interessam: o complexo é grande.'
     ] },
 
@@ -629,20 +681,35 @@ const DAYS = [
     stats:STATS_PARK, items:PARK_ITEMS('Destino no GPS: estacionamento próprio do Epic Universe (1001 Epic Blvd).', 'Chegada ao Epic Universe'),
     tips:[
       'Não use o endereço geral da Universal: o Epic Universe tem estacionamento próprio.',
-      'É o parque mais disputado da Universal. Terça ajuda, mas chegue na abertura.'
+      'O Epic Universe pode atingir a lotação em alguns dias: chegue na abertura.',
+      'Último dia de parque: deixem as malas adiantadas na noite anterior ou ao voltar.'
     ] },
 
-  { id:'16', date:'2026-12-16', wd:'Qua', cat:'fim', title:'Dia da volta', sub:'Voo de volta a definir', places:[], stats:null, items:[], end:true,
-    empty:'Dia da volta. Os horários do voo entram quando estiverem definidos.',
-    tips:['Quando tiver o voo, vale incluir: check-out da casa, devolução do carro e chegada ao aeroporto 3 horas antes.'] }
+  { id:'16', date:'2026-12-16', wd:'Qua', cat:'fim', title:'Dia da volta', sub:'LATAM LA8127 · Orlando → São Paulo', places:['mcoB'], end:true,
+    stats:[['Check-out','10:00'],['Aeroporto','15:00'],['Voo','18:05']],
+    items:[
+      {t:'10:00', ico:'home',     title:'Check-out da casa', desc:'Muitas casas da região fazem check-out às 10h. Confirmem o horário com a casa.', confirm:true},
+      {t:'14:00', ico:'car',      title:'Saída para o aeroporto', desc:'Cerca de 25 minutos até o aeroporto, com pedágio no caminho.', sug:true},
+      {t:'14:30', ico:'key',      title:'Devolução dos 2 carros', desc:'Nos Terminais A e B, onde fica a LATAM. Sigam as placas Rental Car Return da locadora.', sug:true},
+      {t:'15:00', ico:'suitcase', title:'Check-in LATAM', desc:'Cerca de 3 horas antes do voo, nos balcões do Terminal B.', sug:true},
+      {t:'18:05', ico:'plane', rot:'up', title:'Voo LATAM LA8127', desc:'Orlando (MCO) → São Paulo (GRU), voo direto de cerca de 8h35.'},
+      {t:'04:40', date:'2026-12-17', tz:'BRT', ico:'plane', rot:'land', title:'Chegada em São Paulo', est:true,
+        desc:'Terminal 3 de Guarulhos. Para a conexão até Confins (LA3554), é preciso retirar as malas, passar pela alfândega e despachar de novo no balcão de conexão da LATAM.'}
+    ],
+    tips:[
+      'Entre o check-out e a ida ao aeroporto sobram algumas horas: dá para almoçar e fazer as últimas compras. Não deixem malas à vista no carro.',
+      'Confiram a franquia de bagagem do bilhete antes de fechar as malas: compras de outlet pesam.',
+      'Se o contrato pedir tanque cheio, abasteçam antes de devolver os carros.',
+      'O horário de chegada a São Paulo é estimado pela duração do voo. Confiram no bilhete.'
+    ] }
 ];
 
 const TODO = [
-  {day:'06', sev:'info', text:'Parques da Disney do dia 06 ainda em aberto (opção 1 ou 2).'},
+  {day:'09', sev:'warn', text:'Ingresso da Universal: o de 3 dias comum vale por 5 dias corridos, e de 09 a 15 são 7.'},
+  {day:'06', sev:'info', text:'Definir os parques do dia 06 e comprar o ingresso da Disney (a opção 2 exige Park Hopper).'},
+  {day:'04', sev:'warn', text:'Com imigração, malas e 2 carros para retirar, a saída do aeroporto deve ficar entre 21h e 22h.'},
   {day:'12', sev:'warn', text:'Busch Gardens fica a ~1h30 e costuma abrir às 10h.'},
-  {day:'04', sev:'warn', text:'A saída do aeroporto tende a ficar perto das 21h, não 20:30.'},
-  {day:'04', sev:'info', text:'Endereço da casa em Kissimmee ainda provisório.'},
-  {day:'16', sev:'info', text:'Voo de volta ainda não incluído.'}
+  {day:'16', sev:'info', text:'Confirmar o horário de check-out da casa.'}
 ];
 
 /* ===== Aplicação ===== */
@@ -675,11 +742,18 @@ const idx = id => DAYS.findIndex(d => d.id === id);
 const absTime = (date, t, tz) => new Date(`${date}T${t}:00${tz === 'BRT' ? BRT : ORL}`);
 const orlDate = d => d.toLocaleDateString('en-CA', { timeZone:'America/New_York' });
 const tripState = () => { const n = now(); return n < new Date(TRIP.start) ? 'before' : (n > new Date(TRIP.end) ? 'after' : 'during'); };
-const todayId = () => { if (tripState() !== 'during') return null; const d = DAYS.find(x => x.date === orlDate(now())); return d ? d.id : '04'; };
+const todayId = () => {
+  if (tripState() !== 'during') return null;
+  const t = orlDate(now());
+  const d = DAYS.find(x => x.date === t);
+  if (d) return d.id;
+  return t < DAYS[0].date ? DAYS[0].id : DAYS[DAYS.length - 1].id;
+};
+const ticketFor = id => TICKETS.find(t => t.days.includes(id));
 
 /* Transforma o dia (com escolhas e opção do dia 07) no que será mostrado */
 function resolve(day){
-  const v = { id:day.id, date:day.date, wd:day.wd, sub:day.sub, tips:day.tips || [], alert:day.alert, flag:day.flag,
+  const v = { id:day.id, date:day.date, wd:day.wd, sub:day.sub, tips:day.tips || [], alert:day.alert, flag:day.flag, flagShort:day.flagShort,
     ideas:day.ideas, end:day.end, empty:day.empty, stats:day.stats, slots:[], title:day.title, cat:day.cat, places:day.places || [], items:day.items || [] };
   const notes = DATE_NOTES[day.date] || {};
   if (day.slot){
@@ -695,7 +769,7 @@ function resolve(day){
     const eve = {};
     v.slots = o.slots.map(s => { const c = choice(s); const k = s.key.endsWith('p1') ? 'p1' : s.key.endsWith('p2') ? 'p2' : 'p'; map[k] = PLACES[c].short; picked[k] = c; eve[k] = !!s.evening; return { ...s, val:c }; });
     v.items = o.items.map(it => ({ ...it, title:fill(it.title, map), desc:fill(it.desc, map), warn: it.noteFor ? (eve[it.noteFor] ? notes[picked[it.noteFor]] : undefined) : it.warn }));
-    v.places = v.slots.map(s => s.val);
+    v.places = S.opt === 'o1' ? [picked.p] : [picked.p1, { key:picked.p2, from:picked.p1 }];
     v.stats = o.stats;
     if (S.opt === 'o1'){ v.title = map.p; v.cat = picked.p; }
     else { v.title = `${map.p1} + ${map.p2}`; v.cat = picked.p1; v.cat2 = picked.p2; }
@@ -711,7 +785,7 @@ function resolve(day){
 /* Estado de cada item da programação no modo ao vivo */
 function itemStates(v){
   const n = now();
-  const times = v.items.map(it => /^\d\d:\d\d$/.test(it.t) ? absTime(v.date, it.t, it.tz) : null);
+  const times = v.items.map(it => /^\d\d:\d\d$/.test(it.t) ? absTime(it.date || v.date, it.t, it.tz) : null);
   const valid = times.map((t, i) => t ? i : -1).filter(i => i >= 0);
   if (!valid.length) return v.items.map(() => '');
   const first = times[valid[0]], last = times[valid[valid.length - 1]];
@@ -729,14 +803,22 @@ function inLabel(ms){
 /* Links de rota */
 function mapsUrl(q, o){ return `https://www.google.com/maps/dir/?api=1${o ? '&origin=' + encodeURIComponent(o) : ''}&destination=${encodeURIComponent(q)}&travelmode=driving`; }
 function wazeUrl(q){ return `https://waze.com/ul?q=${encodeURIComponent(q)}&navigate=yes`; }
-function placeActions(P, cls){
+/* Ponto de partida da rota no Google Maps: a casa, salvo indicação. O Waze sempre usa a localização atual. */
+function routeFrom(P, from){
+  if (P.here) return null;
+  const O = PLACES[from || 'casa'];
+  return !O || O === P ? null : O;
+}
+function placeActions(P, cls, from, quiet){
   const q = P.nav || `${P.name}, ${P.addr}`;
+  const O = routeFrom(P, from);
   const c = cls === 'g' ? 'act-g' : 'act';
+  const note = O && !quiet ? `<p class="route-note">O Google Maps calcula a rota saindo ${esc(O.fromLabel || 'do ' + (O.short || O.name))}. O Waze usa a sua localização.</p>` : '';
   return `<div class="acts">
-    <a class="${c} pri" href="${mapsUrl(q, P.origin)}" target="_blank" rel="noopener">${ico('nav')}Google Maps</a>
+    <a class="${c} pri" href="${mapsUrl(q, O ? (O.nav || O.addr) : null)}" target="_blank" rel="noopener">${ico('nav')}Google Maps</a>
     <a class="${c}" href="${wazeUrl(q)}" target="_blank" rel="noopener">Waze</a>
     <button class="${c}" type="button" data-copy="${esc(P.addr)}">${ico('copy')}Copiar</button>
-  </div>`;
+  </div>${note}`;
 }
 
 /* ---------- faixa de datas ---------- */
@@ -767,7 +849,7 @@ function countHTML(){
         <div class="cu"><b id="cd-m">00</b><span>min</span></div>
         <div class="cu"><b id="cd-s">00</b><span>seg</span></div>
       </div>
-      <p class="count-foot">Partida sexta, 04/12, às 08:00 (Brasília).</p></div>`;
+      <p class="count-foot">Partida sexta, 04/12, às 08:00 (Brasília). Volta quarta, 16/12, às 18:05.</p></div>`;
   }
   if (st === 'during'){
     const d = dayById(todayId()); const v = resolve(d);
@@ -803,13 +885,17 @@ function renderOverview(){
   ].map(([b, l, a1, a2]) => `<span class="stat" style="--a1:${a1};--a2:${a2}"><i></i><b>${b}</b> ${l}</span>`).join('');
   const pend = TODO.map(p => `<li><button class="pend-row" type="button" data-go="dia-${p.day}" data-sev="${p.sev}">
       <span class="sv"></span><span class="dt">${p.day}/12</span><span class="tx">${esc(p.text)}</span>${ico('chevR')}</button></li>`).join('');
+  const dlist = a => a.length === 1 ? `${a[0]}/12` : `${a.slice(0, -1).join(', ')} e ${a[a.length - 1]}/12`;
+  const tix = TICKETS.map(x => `<li><button class="tix-row" type="button" data-go="dia-${x.days[0]}" data-st="${x.ok ? 'ok' : 'buy'}">
+      <span class="sv"></span>
+      <span class="tx"><b>${esc(x.name)}</b> · ${dlist(x.days)}${x.note ? `<small>${esc(x.note)}</small>` : ''}</span>
+      <span class="st">${x.ok ? 'Comprado' : 'A comprar'}</span></button></li>`).join('');
   const wallet = views.map((v, i) => {
     const past = tripState() !== 'before' && v.date < orlDate(n) && v.id !== t;
-    const flag = v.warnFlag || v.flag;
+    const flag = v.warnFlag ? 'Atenção' : (v.flagShort || v.flag);
     return `<button class="mp${past ? ' is-past' : ''}${t === v.id ? ' is-today' : ''}" type="button" data-go="dia-${v.id}" style="--a1:${v.a1};--a2:${v.a2};--i:${i}">
       <span class="gl">${ico(v.glyph)}</span>
-      ${flag ? `<span class="flag">${esc(flag)}</span>` : ''}
-      <span class="mp-d"><b>${v.id}</b><span>${v.wd} · dez</span></span>
+      <span class="mp-d"><b>${v.id}</b>${flag ? `<span class="flag">${esc(flag)}</span>` : `<span>${v.wd} · dez</span>`}</span>
       <span class="mp-perf" aria-hidden="true"></span>
       <span><span class="mp-t">${esc(v.title)}</span><span class="mp-c">${esc(v.label)}</span></span>
     </button>`;
@@ -819,14 +905,20 @@ function renderOverview(){
       <div class="hero">
         <span class="eyebrow">Roteiro da viagem</span>
         <h1>Orlando<span>Dezembro 2026</span></h1>
-        <p class="lede">Treze dias de parques, compras e descanso. Toque em um passe para ver horários, endereços e a rota até cada lugar.</p>
+        <p class="lede">Treze dias de parques, compras e descanso. Toque em um passe para ver horários, endereços e a rota até cada lugar, saindo da casa. O botão “Ir para casa”, no topo, traça a volta de onde você estiver.</p>
       </div>
       ${countHTML()}
     </div>
     <div class="stats">${stats}</div>
-    <div class="pend">
-      <div class="sec-h"><h2>Para resolver antes de ir</h2><small>${TODO.length} itens</small></div>
-      <ul>${pend}</ul>
+    <div class="ov-two">
+      <div class="pend">
+        <div class="sec-h"><h2>Para resolver antes de ir</h2><small>${TODO.length} itens</small></div>
+        <ul>${pend}</ul>
+      </div>
+      <div class="pend">
+        <div class="sec-h"><h2>Ingressos</h2><small>${TICKETS.filter(x => x.ok).length} de ${TICKETS.length} comprados</small></div>
+        <ul>${tix}</ul>
+      </div>
     </div>
     <div>
       <div class="sec-h"><h2>Seus passes</h2><small>04 a 16 de dezembro</small></div>
@@ -836,7 +928,9 @@ function renderOverview(){
 }
 
 /* ---------- dia ---------- */
-function placeHTML(key){
+function placeHTML(entry){
+  const key = typeof entry === 'string' ? entry : entry.key;
+  const from = typeof entry === 'string' ? undefined : entry.from;
   const P = PLACES[key];
   if (!P.addr){
     return `<div class="place tbd"><div class="place-n">${esc(P.name)}</div><div class="addr">${esc(P.tbd)}</div></div>`;
@@ -845,7 +939,7 @@ function placeHTML(key){
     <div class="place-n">${esc(P.name)}</div>
     <div class="addr">${esc(P.addr)}</div>
     ${P.note ? `<div class="place-note">${ico('pin')}<span>${esc(P.note)}</span></div>` : ''}
-    ${placeActions(P)}
+    ${placeActions(P, '', from)}
   </div>`;
 }
 function passHTML(v){
@@ -854,6 +948,8 @@ function passHTML(v){
   const swaps = v.slots.length ? `<div class="swap-row">${v.slots.map(s =>
     `<button class="swap" type="button" data-pick="${s.key}">${ico('swap')}<span><small>${esc(s.label)}</small><b>${esc(PLACES[s.val].short)}</b></span><em>Trocar</em></button>`).join('')}</div>` : '';
   const flag = v.warnFlag || v.flag;
+  const T = ticketFor(v.id);
+  const tk = T ? `<span class="tk ${T.ok ? 'ok' : 'buy'}">${ico(T.ok ? 'check' : 'gate')}${esc(T.ok ? (T.pass || 'Ingresso comprado') : 'Ingresso a comprar')}</span>` : '';
   const stub = v.places.length ? `<div class="perf" aria-hidden="true"><i></i><i></i></div>
     <div class="stub"><div class="stub-h">${v.places.length > 1 ? 'Endereços do dia' : 'Endereço'}</div>${v.places.map(placeHTML).join('')}</div>` : '';
   return `<article class="pass b-pass" style="--a1:${v.a1};--a2:${v.a2}" id="pass">
@@ -865,6 +961,7 @@ function passHTML(v){
       </div>
       <h1 class="pass-title">${esc(v.title)}</h1>
       <p class="pass-sub">${esc(v.sub)}${flag ? ` · ${v.wd}, ${v.id}/12` : ''}</p>
+      ${tk}
       ${stats}
       ${swaps}
     </div>
@@ -879,8 +976,12 @@ function timelineHTML(v){
   const st = itemStates(v);
   const lis = v.items.map((it, i) => {
     const s = st[i];
-    const badge = it.tbd ? '<span class="badge tbd">a definir</span>' : it.open ? '<span class="badge tbd">em aberto</span>' : s === 'now' ? '<span class="badge now">agora</span>' : s === 'next' ? '<span class="badge next">próximo</span>' : '';
-    const tz = it.tz === 'BRT' ? '<small>Brasília</small>' : it.tz === 'ORL' ? '<small>Orlando</small>' : '';
+    const live = s === 'now' ? '<span class="badge now">agora</span>' : s === 'next' ? '<span class="badge next">próximo</span>' : '';
+    const kind = it.confirm ? 'a confirmar' : it.sug ? 'sugestão' : it.est ? 'estimado' : '';
+    const badge = it.tbd ? '<span class="badge tbd">a definir</span>' : it.open ? '<span class="badge tbd">em aberto</span>'
+      : live + (kind ? `<span class="badge tbd">${kind}</span>` : '');
+    const dsm = it.date && it.date !== v.date ? `<small>${it.date.slice(8, 10)}/${it.date.slice(5, 7)}</small>` : '';
+    const tz = dsm + (it.tz === 'BRT' ? '<small>Brasília</small>' : it.tz === 'ORL' ? '<small>Orlando</small>' : '');
     const rot = it.rot === 'land' ? 'ico-land' : it.rot === 'up' ? 'ico-up' : '';
     return `<li class="tl-item" data-state="${s}" style="--i:${i}">
       <div class="tl-time">${it.t === 'x' ? '--:--' : it.t}${tz}</div>
@@ -906,9 +1007,9 @@ function renderDay(id){
       <ul>${v.alert.opts.map(o => `<li>${esc(o)}</li>`).join('')}</ul></div></section>` : '';
   const tips = v.tips.length ? `<section class="card tips b-tips"><div class="sec-h"><h2>Dicas do dia</h2></div>
       <ul>${v.tips.map(t => `<li>${ico('spark')}<span>${esc(t)}</span></li>`).join('')}</ul></section>` : '';
-  const ideas = v.ideas ? `<section class="card b-ideas"><div class="sec-h"><h2>Ideias para o dia livre</h2><small>opcional</small></div>
+  const ideas = v.ideas ? `<section class="card b-ideas"><div class="sec-h"><h2>Ideias para o dia livre</h2><small>rotas saindo da casa</small></div>
       <div class="ideas-g">${v.ideas.map(k => { const P = PLACES[k]; return `<div class="idea"><h3>${esc(P.name)}</h3><p>${esc(P.blurb)}</p>
-        <div class="addr">${esc(P.addr)}</div>${placeActions(P, 'g')}</div>`; }).join('')}</div></section>` : '';
+        <div class="addr">${esc(P.addr)}</div>${placeActions(P, 'g', null, true)}</div>`; }).join('')}</div></section>` : '';
   const end = v.end ? `<section class="card fim b-ideas"><div class="sec-h"><h2>Resumo da viagem</h2></div>
       <p>7 dias de parque, 3 de compras e 1 dia livre entre 04 e 16 de dezembro.</p>
       <button class="act-g pri" type="button" data-go="visao-geral">${ico('grid')}Ver todos os passes</button></section>` : '';
@@ -933,7 +1034,7 @@ function renderLive(){
   const cur = v.items[st.indexOf('now')], nxt = v.items[st.indexOf('next')];
   let txt = `<b>${v.wd} ${v.id}: ${esc(v.title)}</b>`;
   if (cur) txt += ` · Agora: ${esc(cur.title)}`;
-  if (nxt) txt += ` · Depois: ${esc(nxt.title)} às ${nxt.t} (em ${inLabel(absTime(v.date, nxt.t, nxt.tz) - now())})`;
+  if (nxt) txt += ` · Depois: ${esc(nxt.title)} às ${nxt.t} (em ${inLabel(absTime(nxt.date || v.date, nxt.t, nxt.tz) - now())})`;
   el.innerHTML = `<span class="live-dot"></span><span class="tag">${sim ? 'Prévia' : 'Ao vivo'}</span><span>${txt}</span>
     ${current !== 'dia-' + t ? `<a href="#dia-${t}" data-go="dia-${t}">Abrir</a>` : ''}
     ${sim ? '<button type="button" data-sim-off>Sair da prévia</button>' : ''}`;
@@ -1133,6 +1234,8 @@ const Sky = (() => {
 
 /* ---------- início ---------- */
 $('#brand-mark').innerHTML = ico('spark');
+$('#home-btn').href = mapsUrl(PLACES.casa.nav || PLACES.casa.addr);
+$('#home-ico').innerHTML = ico('home');
 render();
 Sky.init();
 setInterval(tickCount, 1000);
