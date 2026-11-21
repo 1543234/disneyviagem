@@ -512,8 +512,8 @@ const PLACES = {
 
 /* Ingressos. ok = já comprado */
 const TICKETS = [
-  {name:'Disney', days:['06','07'], ok:false, note:'2 dias. Park Hopper só se escolherem a opção 2 do dia 06.'},
-  {name:'Universal', days:['09','13','15'], ok:false, note:'Precisa valer de 09 a 15: são 7 dias corridos.'},
+  {name:'Disney', days:['06','07'], ok:false, note:'2 dias, um parque por dia, sem Park Hopper.'},
+  {name:'Universal', days:['09','13','15'], ok:false, note:'Ingresso especial da Azul: 3 dias, válido por 7 dias corridos (09 a 15).'},
   {name:'SeaWorld Orlando', days:['10'], ok:true},
   {name:'Busch Gardens', days:['12'], ok:true},
   {name:'NBA: Magic x 76ers', days:['14'], ok:true, pass:'Ingresso do jogo comprado'}
@@ -540,7 +540,7 @@ const DAYS = [
       {t:'12:25', tz:'BRT', ico:'plane', rot:'up', title:'Voo Azul AD 8730', desc:'Confins (CNF) → Orlando (MCO), voo direto de cerca de 9 horas. Em dezembro, Orlando está 2 horas atrás de Brasília.'},
       {t:'19:30', tz:'ORL', ico:'plane', rot:'land', title:'Chegada em Orlando', desc:'Desembarque no Terminal C. Imigração e malas podem levar mais de 1 hora.'},
       {t:'20:30', ico:'key',  title:'Carros e ida para casa', desc:'Retirada dos 2 carros na locadora do aeroporto e cerca de 25 minutos até a casa. Se a locadora não tiver balcão no Terminal C, o trem Terminal Link leva aos Terminais A e B.',
-        warn:'Com imigração, malas e a fila da locadora, a saída do aeroporto deve ficar entre 21h e 22h.'},
+        warn:'Com imigração, malas e a fila da locadora, a saída do aeroporto fica entre 21h e 22h.'},
       {t:'21:00', ico:'cart', title:'Compras básicas', desc:'Mercado rápido: água, café da manhã e o essencial para o dia seguinte.'}
     ],
     tips:[
@@ -564,34 +564,19 @@ const DAYS = [
       'Não deixe sacolas à vista dentro do carro.'
     ] },
 
-  { id:'06', date:'2026-12-06', wd:'Dom', cat:'hs', title:'Dia Disney', sub:'Duas opções', places:[], flag:'Parques a definir', flagShort:'A definir',
-    options:{
-      o1:{ label:'Opção 1', hint:'1 parque, dia inteiro',
-        note:'<b>Ingresso comum.</b> Mais tempo em um parque só, sem deslocamento no meio do dia.',
-        slots:[{key:'d06o1', list:['hs','epcot','ak'], def:'hs', label:'Parque do dia', evening:true}],
-        stats:STATS_PARK,
-        items:[
-          {t:'08:30', ico:'car',  title:'Saída de casa', desc:'GPS para o estacionamento do {p}.'},
-          {t:'09:00', ico:'gate', title:'Chegada ao {p}', desc:'Abertura do parque. Chegar cedo garante as filas mais curtas do dia.', noteFor:'p'},
-          {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para a casa.'}
-        ] },
-      o2:{ label:'Opção 2', hint:'2 parques (Park Hopper)',
-        note:'<b>Exige ingresso com Park Hopper.</b> A troca pode ser a qualquer hora depois de entrar no primeiro parque. Você vê mais um parque, mas perde cerca de 1 hora no deslocamento.',
-        slots:[{key:'d06o2p1', list:['ak','hs','epcot'], def:'ak', label:'Parque 1 · manhã'},
-               {key:'d06o2p2', list:['epcot','hs','ak'], def:'epcot', label:'Parque 2 · tarde', evening:true}],
-        stats:[['Saída','08:30'],['Troca','15:00'],['Volta','21:00']],
-        items:[
-          {t:'08:30', ico:'car',  title:'Saída de casa', desc:'GPS para o estacionamento do {p1}.'},
-          {t:'09:00', ico:'gate', title:'Parque 1: {p1}', desc:'Manhã no primeiro parque.', noteFor:'p1'},
-          {t:'15:00', ico:'swap', title:'Ida ao parque 2: {p2}', desc:'Troca de parque. De carro, conte o tempo de estacionar de novo.', noteFor:'p2'},
-          {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para a casa.'}
-        ] }
-    },
+  { id:'06', date:'2026-12-06', wd:'Dom', cat:'hs', title:'Dia Disney', sub:'Dia Disney · um parque', places:[], flag:'Parque a definir', flagShort:'A definir',
+    slot:{key:'d06', list:['hs','epcot','ak'], def:'hs', label:'Parque do dia (a definir)', evening:true},
+    stats:STATS_PARK,
+    items:[
+      {t:'08:30', ico:'car',  title:'Saída de casa', desc:'GPS para o estacionamento do {u}.'},
+      {t:'09:00', ico:'gate', title:'Chegada ao {u}', desc:'Abertura do parque. Chegar cedo garante as filas mais curtas do dia.'},
+      {t:'21:00', ico:'exit', title:'Saída do parque', desc:'Fim do dia e volta para a casa.'}
+    ],
     tips:[
-      'Os parques deste dia ainda estão em aberto: toque em “Trocar” para comparar endereços e avisos.',
-      'Decidam a opção antes de comprar o ingresso da Disney: só a opção 2 precisa de Park Hopper.',
+      'O parque deste dia ainda está em aberto: toque em “Trocar” para comparar endereços e avisos.',
       'Nesse dia o Hollywood Studios funciona em horário normal. A festa de Natal dele cai nos dias 05 e 07.',
-      'O Animal Kingdom costuma fechar no fim da tarde: funciona melhor como primeiro parque.'
+      'O Animal Kingdom costuma fechar no fim da tarde: não chega até as 21h.',
+      'O EPCOT costuma ter fogos à noite e, em dezembro, o Festival of the Holidays.'
     ] },
 
   { id:'07', date:'2026-12-07', wd:'Seg', cat:'mk', title:'Magic Kingdom', sub:'Dia Disney', places:['mk'],
@@ -623,7 +608,7 @@ const DAYS = [
   { id:'09', date:'2026-12-09', wd:'Qua', cat:'usf', title:'Universal Studios', sub:'Dia Universal', places:['usf'],
     stats:STATS_PARK, items:PARK_ITEMS(GPS_UNI, 'Chegada ao Universal Studios'),
     tips:[
-      'O ingresso comum de 3 dias da Universal vale por 5 dias corridos. Daqui até o dia 15 são 7: confiram a validade antes de comprar.',
+      'Usem o ingresso especial de 3 dias da Azul: ele vale por 7 dias corridos e cobre 09, 13 e 15.',
       'Universal Studios e Islands of Adventure ficam lado a lado e são ligados pelo Hogwarts Express (exige ingresso park-to-park).',
       'Use o app da Universal para filas e filas virtuais.'
     ] },
@@ -686,30 +671,26 @@ const DAYS = [
     ] },
 
   { id:'16', date:'2026-12-16', wd:'Qua', cat:'fim', title:'Dia da volta', sub:'LATAM LA8127 · Orlando → São Paulo', places:['mcoB'], end:true,
-    stats:[['Check-out','10:00'],['Aeroporto','15:00'],['Voo','18:05']],
+    stats:[['Saída','14:00'],['Aeroporto','15:00'],['Voo','18:05']],
     items:[
-      {t:'10:00', ico:'home',     title:'Check-out da casa', desc:'Muitas casas da região fazem check-out às 10h. Confirmem o horário com a casa.', confirm:true},
-      {t:'14:00', ico:'car',      title:'Saída para o aeroporto', desc:'Cerca de 25 minutos até o aeroporto, com pedágio no caminho.', sug:true},
-      {t:'14:30', ico:'key',      title:'Devolução dos 2 carros', desc:'Nos Terminais A e B, onde fica a LATAM. Sigam as placas Rental Car Return da locadora.', sug:true},
+      {t:'14:00', ico:'car',      title:'Saída para o aeroporto', desc:'Cerca de 25 minutos até o aeroporto, com pedágio no caminho. A família fica na casa e cuida do check-out depois.', sug:true},
+      {t:'14:30', ico:'key',      title:'Devolução de um carro', desc:'Nos Terminais A e B, onde fica a LATAM. Sigam as placas Rental Car Return da locadora.', sug:true},
       {t:'15:00', ico:'suitcase', title:'Check-in LATAM', desc:'Cerca de 3 horas antes do voo, nos balcões do Terminal B.', sug:true},
       {t:'18:05', ico:'plane', rot:'up', title:'Voo LATAM LA8127', desc:'Orlando (MCO) → São Paulo (GRU), voo direto de cerca de 8h35.'},
       {t:'04:40', date:'2026-12-17', tz:'BRT', ico:'plane', rot:'land', title:'Chegada em São Paulo', est:true,
         desc:'Terminal 3 de Guarulhos. Para a conexão até Confins (LA3554), é preciso retirar as malas, passar pela alfândega e despachar de novo no balcão de conexão da LATAM.'}
     ],
     tips:[
-      'Entre o check-out e a ida ao aeroporto sobram algumas horas: dá para almoçar e fazer as últimas compras. Não deixem malas à vista no carro.',
+      'Deixem as malas fechadas na noite anterior para sair com calma.',
       'Confiram a franquia de bagagem do bilhete antes de fechar as malas: compras de outlet pesam.',
-      'Se o contrato pedir tanque cheio, abasteçam antes de devolver os carros.',
+      'Se o contrato pedir tanque cheio, abasteçam antes de devolver o carro.',
       'O horário de chegada a São Paulo é estimado pela duração do voo. Confiram no bilhete.'
     ] }
 ];
 
 const TODO = [
-  {day:'09', sev:'warn', text:'Ingresso da Universal: o de 3 dias comum vale por 5 dias corridos, e de 09 a 15 são 7.'},
-  {day:'06', sev:'info', text:'Definir os parques do dia 06 e comprar o ingresso da Disney (a opção 2 exige Park Hopper).'},
-  {day:'04', sev:'warn', text:'Com imigração, malas e 2 carros para retirar, a saída do aeroporto deve ficar entre 21h e 22h.'},
-  {day:'12', sev:'warn', text:'Busch Gardens fica a ~1h30 e costuma abrir às 10h.'},
-  {day:'16', sev:'info', text:'Confirmar o horário de check-out da casa.'}
+  {day:'06', sev:'info', text:'Escolher o parque do dia 06 (vai ser um só) e comprar o ingresso da Disney.'},
+  {day:'12', sev:'warn', text:'Busch Gardens fica a ~1h30 e costuma abrir às 10h.'}
 ];
 
 /* ===== Aplicação ===== */
@@ -761,7 +742,7 @@ function resolve(day){
     const P = PLACES[c];
     v.slots = [{ ...day.slot, val:c }];
     v.cat = c; v.title = P.short; v.places = [c];
-    v.items = day.items.map(it => ({ ...it, title:fill(it.title, {u:P.short}), desc:fill(it.desc, {gps:P.gps}) }));
+    v.items = day.items.map(it => ({ ...it, title:fill(it.title, {u:P.short}), desc:fill(it.desc, {u:P.short, gps:P.gps}) }));
   }
   if (day.options){
     const o = day.options[S.opt];
